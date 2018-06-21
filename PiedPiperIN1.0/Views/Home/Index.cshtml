@@ -1,0 +1,35 @@
+﻿@model PiedPiperIN1._0.Models.user_profile
+@{
+    ViewBag.Title = "Index";
+}
+<h2>PIED PIPER IN</h2>
+<h3>Login Page</h3>
+<br />
+
+@using (Html.BeginForm("Index", "Home", FormMethod.Post))
+{
+    <fieldset>
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        @if (@ViewBag.Message != null)
+        {
+            <div style="border: 1px solid red">
+                @ViewBag.Message
+            </div>
+        }
+
+        @Html.TextBoxFor(a => a.Email, new { placeholder = Html.DisplayNameFor(a => a.Email) })
+        <br />
+        @Html.ValidationMessageFor(a => a.Email)
+
+        <br />
+        @Html.PasswordFor(a => a.Password, new { placeholder = Html.DisplayNameFor(a => a.Password) })
+        <br />
+        @Html.ValidationMessageFor(a => a.Password)
+
+        <br />
+        <br />
+        <input type="submit" id="submit" value="Login" style="background-color: #4CAF50;  border: none;   color: white;   padding: 15px 20px;   text-align: center;    text-decoration: none;    display: inline-block;   font-size: 16px;" />
+       </fieldset>
+        }
