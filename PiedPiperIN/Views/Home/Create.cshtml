@@ -1,0 +1,49 @@
+﻿@model PiedPiperIN.Models.user_profile
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Sign Up to Pied Piper</h2>
+
+@using (Html.BeginForm("Create", "Home", FormMethod.Post))
+{
+<fieldset>
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @if (@ViewBag.id != null)
+    {
+        <div style="border: 1px solid red">
+            @ViewBag.id
+        </div>
+    }
+
+    @Html.TextBoxFor(a => a.Email, new { placeholder = Html.DisplayNameFor(a => a.Email) })
+    <br />
+    @Html.ValidationMessageFor(a => a.Email)
+
+    <br />
+    @Html.PasswordFor(a => a.Password, new { placeholder = Html.DisplayNameFor(a => a.Password) })
+    <br />
+    @Html.ValidationMessageFor(a => a.Password)
+    <br />
+    @Html.TextBoxFor(a => a.Name, new { placeholder = Html.DisplayNameFor(a => a.Name) })
+    <br />
+    @Html.ValidationMessageFor(a => a.Name)
+    <br />
+    @Html.TextBoxFor(a => a.Address, new { placeholder = Html.DisplayNameFor(a => a.Address) })
+    <br />
+    @Html.ValidationMessageFor(a => a.Address)
+
+    <br />
+    <br />
+    <br />
+    <p>
+        <input type="submit" id="submit" value="Sign up" style="background-color: #4CAF50;  border: none;   color: white;   padding: 10px 15px;   text-align: center;    text-decoration: none;    display: inline-block;   font-size: 16px;" />
+       
+        &nbsp;&nbsp;&nbsp;&nbsp; @Html.ActionLink("Login", "index", "Home", new { @style = "background-color: #00CED1;  border: none;   color: white;   padding: 10px 15px;   text-align: center;    text-decoration: none;    display: inline-block;   font-size: 16px;" })
+    </p>
+
+</fieldset>
+}
+

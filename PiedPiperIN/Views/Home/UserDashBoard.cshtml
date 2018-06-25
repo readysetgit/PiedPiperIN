@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+@model PiedPiperIN.Models.cart_view
+
+
+<html>
+<h2>View</h2>
+@Html.Raw(Session["htmlStr"]);
+@using (Html.BeginForm("addtocart", "Home", FormMethod.Post))
+{
+
+
+
+}
+<input type="text" placeholder="product_id" />
+<input type="text" placeholder="quantity" />
+<input type="text" placeholder="product name" />
+
+<input type="submit" value="Add to cart" />
+
+</html>
