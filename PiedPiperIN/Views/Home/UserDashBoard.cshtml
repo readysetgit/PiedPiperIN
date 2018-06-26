@@ -1,4 +1,4 @@
-﻿@model Tuple <PiedPiperIN.Models.product, PiedPiperIN.Models.cart_view>
+﻿@model IEnumerable<PiedPiperIN.Models.product>
 
 @{
     ViewBag.Title = "UserDashBoard";
@@ -7,49 +7,48 @@
 <h2>UserDashBoard</h2>
 
 <p>
-    @Html.ActionLink("UploadProduct", "UploadProduct", "Product")
+    @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
-
     <tr>
         <th>
-            @Html.DisplayNameFor(tuple => tuple.Item1.Product_ID)
+            @Html.DisplayNameFor(model => model.Product_ID)
         </th>
         <th>
-            @Html.DisplayNameFor(tuple => tuple.Item1.Product_Name)
+            @Html.DisplayNameFor(model => model.Product_Name)
         </th>
         <th>
-            @Html.DisplayNameFor(tuple => tuple.Item1.Product_Pic)
+            @Html.DisplayNameFor(model => model.Product_Pic)
         </th>
         <th></th>
     </tr>
 
-    @foreach (Tuple<PiedPiperIN.Models.product, PiedPiperIN.Models.cart_view> tuple in Model)
+    @foreach (var item in Model)
     {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem =>tuple.Item1.Product_ID)
+            @Html.DisplayFor(modelItem => item.Product_ID)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => tuple.Item1.Product_Name)
+            @Html.DisplayFor(modelItem => item.Product_Name)
         </td>
         <td>
-            <img src="~/Content/@Html.DisplayFor(modelItem => tuple.Item1.Product_Pic)" width="100" height="100" />
-
+          <img src="~/Content/@Html.DisplayFor(modelItem => item.Product_Pic)" width="100px" height="100px"/>
         </td>
-        <td><form id="cart" action="addtocart.cs"><input type="text" id="qty " style="width:40px;" placeholder="qty" /> <input type="submit" value="Add to cart" /></form></td>
+        
         <td>
-            @using (Html.BeginForm("Create", "Home", FormMethod.Post))
-            {
 
-                @Html.TextBoxFor(a =>tuple.Item2.product_name, new { placeholder = Html.DisplayNameFor(a => tuple.Item2.product_name) })
+            <form method="post" action="@Url.Action("addtocart", "Home")">
+               
+                @Session["pid"]=item.Product_ID;
 
-            }
-        </td>
+                <input type="text"  name="username" /> <br />
+                <input type="submit" value="Add to cart">
+
+
+                </form>
+</td>
     </tr>
     }
 
-
 </table>
-<input type="submit" value="Go to Cart" />
-

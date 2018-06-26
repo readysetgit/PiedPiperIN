@@ -12,7 +12,8 @@
           <Property Name="id" Type="int" />
           <Property Name="prdouct id" Type="int" />
           <Property Name="product name" Type="varchar" MaxLength="50" />
-          <Property Name="session_id" Type="int" Nullable="false" />
+          <Property Name="session_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Quantity" Type="int" />
         </EntityType>
         <EntityType Name="orders">
           <Key>
@@ -30,7 +31,7 @@
           <Property Name="Product ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Product_Name" Type="varchar" MaxLength="100" />
           <Property Name="Product_Pic" Type="varchar(max)" />
-          <Property Name="Product_Image" Type="varchar(max)" />
+          <Property Name="Product_Price" Type="int" />
         </EntityType>
         <EntityType Name="user_profile">
           <Key>
@@ -63,6 +64,7 @@
           <Property Name="prdouct_id" Type="Int32" />
           <Property Name="product_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="session_id" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" />
         </EntityType>
         <EntityType Name="order">
           <Key>
@@ -93,7 +95,7 @@
           <Property Name="Product_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Product_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Product_Pic" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Product_Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Product_Price" Type="Int32" />
         </EntityType>
         <EntityContainer Name="PiedPiperINEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="cart_view" EntityType="Self.cart_view" />
@@ -110,6 +112,7 @@
           <EntitySetMapping Name="cart_view">
             <EntityTypeMapping TypeName="PiedPiperINModel.cart_view">
               <MappingFragment StoreEntitySet="cart_view">
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="prdouct_id" ColumnName="prdouct id" />
                 <ScalarProperty Name="product_name" ColumnName="product name" />
@@ -144,7 +147,7 @@
           <EntitySetMapping Name="products">
             <EntityTypeMapping TypeName="PiedPiperINModel.product">
               <MappingFragment StoreEntitySet="products">
-                <ScalarProperty Name="Product_Image" ColumnName="Product_Image" />
+                <ScalarProperty Name="Product_Price" ColumnName="Product_Price" />
                 <ScalarProperty Name="Product_ID" ColumnName="Product ID" />
                 <ScalarProperty Name="Product_Name" ColumnName="Product_Name" />
                 <ScalarProperty Name="Product_Pic" ColumnName="Product_Pic" />

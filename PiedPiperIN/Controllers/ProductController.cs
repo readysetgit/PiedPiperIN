@@ -38,7 +38,7 @@ namespace PiedPiperIN.Controllers
                 }
                 using (PiedPiperINEntities productdb = new PiedPiperINEntities())
                 {
-                    productdb.products.Add(productmodel);
+                    productdb.product.Add(productmodel);
                     productdb.SaveChanges();
                 }
                 ViewBag.Message = "File Uploaded Successfully!!";

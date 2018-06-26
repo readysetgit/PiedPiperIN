@@ -53,14 +53,10 @@ namespace PiedPiperIN.Controllers
                 return RedirectToAction("Index");
             }
 
-
-            
-
-
-                return View(objUser);
+            return View(objUser);
 
 
-            
+
         }
         /// <summary>
         /// /
@@ -69,31 +65,47 @@ namespace PiedPiperIN.Controllers
         ///
         public ActionResult UserDashBoard()
         {
-            var db = new PiedPiperINEntities();
+            PiedPiperINEntities db = new PiedPiperINEntities();
 
             return View(db.products.ToList());
         }
 
         [HttpPost]
-    [ValidateAntiForgeryToken]
-    public ActionResult Create([Bind(Include = "Name,Email,Password,Address")] user_profile user_profile)
-    {
-        PiedPiperINEntities db = new PiedPiperINEntities();
-        if (ModelState.IsValid)
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "Name,Email,Password,Address")] user_profile user_profile)
         {
-            db.user_profile.Add(user_profile);
-            db.SaveChanges();
-            Session["state"] = "true";
-            return RedirectToAction("Index");
+            PiedPiperINEntities db = new PiedPiperINEntities();
+            if (ModelState.IsValid)
+            {
+                db.user_profile.Add(user_profile);
+                db.SaveChanges();
+                Session["state"] = "true";
+                return RedirectToAction("Index");
+            }
+
+            return View(user_profile);
         }
+        public ActionResult Logout()
+        {
+            Session["Email"] = null;
+            return RedirectToAction("Index");
 
-        return View(user_profile);
-    }
-    public ActionResult Logout()
-    {
-        Session["Email"] = null;
-        return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public ActionResult addtocart(string qty)
+        {
+            // PiedPiperINEntities db = new PiedPiperINEntities();
+           var id= Session["pid"];
+            var  name= Session["product_name"];
+            using (PiedPiperINEntities db = new PiedPiperINEntities())
+            {
+                cart_view cart = new cart_view();
+                cart.prdouct_id = Convert.ToInt32(id);
+                cart.Quantity = Convert.ToInt32(qty);
+                
+            }
 
-    }
+                return View();
+        }
 }
 }
