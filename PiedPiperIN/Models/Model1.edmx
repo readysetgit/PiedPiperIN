@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="PiedPiperINModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="PiedPiperINModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="cart_view">
           <Key>
             <PropertyRef Name="session_id" />
@@ -52,16 +52,26 @@ warning 6002: The table/view 'PiedPiperIN.dbo.products' does not have a primary 
           <EntitySet Name="user_profile" EntityType="Self.user_profile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="products" EntityType="Self.products" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
-[products].[Product ID] AS [Product ID], 
-[products].[Product_Name] AS [Product_Name], 
-[products].[Product_Pic] AS [Product_Pic]
-FROM [dbo].[products] AS [products]</DefiningQuery>
+    [products].[Product ID] AS [Product ID], 
+    [products].[Product_Name] AS [Product_Name], 
+    [products].[Product_Pic] AS [Product_Pic]
+    FROM [dbo].[products] AS [products]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PiedPiperINModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="cart_view">
+          <Key>
+            <PropertyRef Name="session_id" />
+          </Key>
+          <Property Name="id" Type="Int32" />
+          <Property Name="prdouct_id" Type="Int32" />
+          <Property Name="product_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="session_id" Type="Int32" Nullable="false" />
+        </EntityType>
         <EntityType Name="order">
           <Key>
             <PropertyRef Name="Order_ID" />
@@ -93,40 +103,40 @@ FROM [dbo].[products] AS [products]</DefiningQuery>
           <Property Name="Product_Pic" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityContainer Name="PiedPiperINEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="cart_view" EntityType="Self.cart_view" />
           <EntitySet Name="orders" EntityType="Self.order" />
           <EntitySet Name="user_profile" EntityType="Self.user_profile" />
           <EntitySet Name="products" EntityType="Self.product" />
-          <EntitySet Name="cart_view" EntityType="PiedPiperINModel.cart_view" />
         </EntityContainer>
-        <EntityType Name="cart_view">
-          <Key>
-            <PropertyRef Name="session_id" />
-          </Key>
-          <Property Name="id" Type="Int32" />
-          <Property Name="prdouct_id" Type="Int32" />
-          <Property Name="product_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="session_id" Type="Int32" Nullable="false" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="PiedPiperINModelStoreContainer" CdmEntityContainer="PiedPiperINEntities">
+          <EntitySetMapping Name="cart_view">
+            <EntityTypeMapping TypeName="PiedPiperINModel.cart_view">
+              <MappingFragment StoreEntitySet="cart_view">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="prdouct_id" ColumnName="prdouct id" />
+                <ScalarProperty Name="product_name" ColumnName="product name" />
+                <ScalarProperty Name="session_id" ColumnName="session_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="orders">
             <EntityTypeMapping TypeName="PiedPiperINModel.order">
               <MappingFragment StoreEntitySet="orders">
-                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
                 <ScalarProperty Name="Order_ID" ColumnName="Order ID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Product_ID" ColumnName="Product ID" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="user_profile">
             <EntityTypeMapping TypeName="PiedPiperINModel.user_profile">
               <MappingFragment StoreEntitySet="user_profile">
-                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
@@ -134,6 +144,7 @@ FROM [dbo].[products] AS [products]</DefiningQuery>
                 <ScalarProperty Name="Profile_Pic" ColumnName="Profile_Pic" />
                 <ScalarProperty Name="Role" ColumnName="Role" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -143,16 +154,6 @@ FROM [dbo].[products] AS [products]</DefiningQuery>
                 <ScalarProperty Name="Product_ID" ColumnName="Product ID" />
                 <ScalarProperty Name="Product_Name" ColumnName="Product_Name" />
                 <ScalarProperty Name="Product_Pic" ColumnName="Product_Pic" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="cart_view">
-            <EntityTypeMapping TypeName="PiedPiperINModel.cart_view">
-              <MappingFragment StoreEntitySet="cart_view">
-                <ScalarProperty Name="session_id" ColumnName="session_id" />
-                <ScalarProperty Name="product_name" ColumnName="product name" />
-                <ScalarProperty Name="prdouct_id" ColumnName="prdouct id" />
-                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -172,7 +173,7 @@ FROM [dbo].[products] AS [products]</DefiningQuery>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>

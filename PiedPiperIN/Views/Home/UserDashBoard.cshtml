@@ -1,20 +1,46 @@
-﻿<!DOCTYPE html>
-@model PiedPiperIN.Models.cart_view
-
-
-<html>
-<h2>View</h2>
-@Html.Raw(Session["htmlStr"]);
-@using (Html.BeginForm("addtocart", "Home", FormMethod.Post))
-{
-
-
-
+﻿@model IEnumerable<PiedPiperIN.Models.product>
+@{
+    ViewBag.Title = "UserDashBoard";
 }
-<input type="text" placeholder="product_id" />
-<input type="text" placeholder="quantity" />
-<input type="text" placeholder="product name" />
 
-<input type="submit" value="Add to cart" />
+<h2>UserDashBoard</h2>
 
-</html>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Product_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Product_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Product_Pic)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product_Name)
+            </td>
+            <td>
+                <img src="~/Content/@Html.DisplayFor(modelItem => item.Product_Pic)" width="100px" height="100px" />
+
+            </td>
+            <td>
+               
+        </tr>
+    }
+
+
+</table>
+

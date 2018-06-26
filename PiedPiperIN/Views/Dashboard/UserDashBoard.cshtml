@@ -1,10 +1,10 @@
-﻿@model IEnumerable<PiedPiperIN.Models.product>
+﻿@*@model IEnumerable<PiedPiperIN.Models.product>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "UserDashBoard";
 }
 
-<h2>Index</h2>
+<h2>UserDashBoard</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -29,9 +29,10 @@
             @Html.DisplayFor(modelItem => item.Product_Pic)
         </td>
         <td>
-          
+            <input type="text" placeholder="Quantity" />
+            <input type="submit" value="Add" />
         </td>
     </tr>
 }
 
-</table>
+</table>*@

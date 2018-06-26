@@ -41,21 +41,6 @@ namespace PiedPiperIN.Controllers
                 Session["Email"] = obj.Email.ToString();
                 Session["Role"] = obj.Role.ToString();
                 Session["Name"] = obj.Name.ToString();
-                var listdata = db.products;
-                foreach (var x in listdata)
-                {
-                    Session["htmlStr"] += "<form><tr style='font-size:20px;'> <td style='width:100px;border: 1px solid black;'><img src='/content/" + x.Product_Pic + "' width='100' height='100'></td> <td style='width:100px;border: 1px solid black;'>" + x.Product_ID + "</td><td style='width:100px;border: 1px solid black;' >" + x.Product_Name + "</td> <td style='width:100px;border: 1px solid black;'><input type='submit' value='Add'/></td><td style='width:40px;border: 1px solid black;'><input style='width:40px;' type='text'/></td></tr> </form>";
-
-                }
-                Session["htmlStr"] += "</table>";
-
-
-
-
-                // (repeat the same for all)
-
-
-
                 return RedirectToAction("UserDashBoard");
 
             }
@@ -80,18 +65,14 @@ namespace PiedPiperIN.Controllers
         /// </summary>
         /// <returns></returns>
         ///
-    public ActionResult UserDashBoard()
-    {
-        if (Session["Email"] != null)
+        public ActionResult UserDashBoard()
         {
-            return View();
+            var db = new PiedPiperINEntities();
+
+            return View(db.product.ToList());
         }
-        else
-        {
-            return RedirectToAction("Index");
-        }
-    }
-    [HttpPost]
+
+        [HttpPost]
     [ValidateAntiForgeryToken]
     public ActionResult Create([Bind(Include = "Name,Email,Password,Address")] user_profile user_profile)
     {
