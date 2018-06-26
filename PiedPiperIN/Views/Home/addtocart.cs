@@ -16,7 +16,7 @@ namespace PiedPiperIN.Views.Home
                 sqlCon.Open();
                 SqlCommand sqlCmd = new SqlCommand("addtocart", sqlCon);
                 sqlCmd.CommandType = System.Data.CommandType.StoredProcedure;
-                sqlCmd.Parameters.AddWithValue("@id", qty.Text);
+                
                
                 sqlCmd.ExecuteNonQuery();
 
