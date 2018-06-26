@@ -1,5 +1,5 @@
-﻿@model IEnumerable<PiedPiperIN.Models.product>
-using <PiedPiperIN.Models.cart_view>
+﻿@model Tuple <PiedPiperIN.Models.product, PiedPiperIN.Models.cart_view>
+
 @{
     ViewBag.Title = "UserDashBoard";
 }
@@ -13,18 +13,18 @@ using <PiedPiperIN.Models.cart_view>
 
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Product_ID)
+            @Html.DisplayNameFor(tuple => tuple.Item1.Product_ID)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Product_Name)
+            @Html.DisplayNameFor(tuple => tuple.Item1.Product_Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Product_Pic)
+            @Html.DisplayNameFor(tuple => tuple.Item1.Product_Pic)
         </th>
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (var item in tuple)
     {
     <tr>
         <td>
