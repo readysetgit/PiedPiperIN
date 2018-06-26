@@ -43,7 +43,7 @@ namespace PiedPiperIN.Controllers
                 }
                 ViewBag.Message = "File Uploaded Successfully!!";
                 return View();
-                throw new Exception();
+                
             }
             
         }
