@@ -1,0 +1,28 @@
+﻿@model PiedPiperIN.Models.product
+@{
+    ViewBag.Title = "UploadProduct";
+}
+
+<h2>@ViewBag.Head</h2>
+
+
+@using (Html.BeginForm("UploadProduct", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+
+
+
+
+    @Html.TextBoxFor(model => model.Product_Name, new { htmlAttributes = new { @class = "form-control" } });
+
+   
+
+    <div>
+        @Html.TextBox("file", "", new { type = "file" }) <br />
+        <input type="submit" value="Upload" />
+        @ViewBag.Message
+    </div>
+
+
+}
+

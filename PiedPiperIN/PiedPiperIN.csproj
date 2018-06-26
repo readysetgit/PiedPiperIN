@@ -128,6 +128,7 @@
     <Content Include="Web.Config" />
     <Content Include="Views\Dashboard\UserDashBoard.cshtml" />
     <Content Include="Views\Home\UserDashBoard.cshtml" />
+    <Content Include="Views\Product\UploadProduct.cshtml" />
     <None Include="Web.Debug.Config">
       <DependentUpon>Web.Config</DependentUpon>
     </None>
@@ -138,6 +139,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
