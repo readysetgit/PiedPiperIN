@@ -22,7 +22,7 @@ namespace PiedPiperIN.Controllers
         public ActionResult UploadProduct(product newproduct, HttpPostedFileBase file)
         {
             ViewBag.Head = "Upload Product";
-            try
+            
             {
                 product productmodel = new product();
 
@@ -38,18 +38,14 @@ namespace PiedPiperIN.Controllers
                 }
                 using (PiedPiperINEntities productdb = new PiedPiperINEntities())
                 {
-                    productdb.product.Add(productmodel);
+                    productdb.products.Add(productmodel);
                     productdb.SaveChanges();
                 }
                 ViewBag.Message = "File Uploaded Successfully!!";
                 return View();
                 throw new Exception();
             }
-            catch (Exception)
-            {
-                ViewBag.Head = "Something Went Wrong!";
-                return View();
-            }
+            
         }
     }
 }

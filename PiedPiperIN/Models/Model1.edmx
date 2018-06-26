@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="PiedPiperINModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="PiedPiperINModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="cart_view">
           <Key>
             <PropertyRef Name="session_id" />
@@ -23,8 +23,6 @@
           <Property Name="Product ID" Type="int" Nullable="false" />
           <Property Name="timestamp" Type="timestamp" StoreGeneratedPattern="Computed" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'PiedPiperIN.dbo.products' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="products">
           <Key>
             <PropertyRef Name="Product ID" />
@@ -32,6 +30,7 @@ warning 6002: The table/view 'PiedPiperIN.dbo.products' does not have a primary 
           <Property Name="Product ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Product_Name" Type="varchar" MaxLength="100" />
           <Property Name="Product_Pic" Type="varchar(max)" />
+          <Property Name="Product_Image" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="user_profile">
           <Key>
@@ -49,17 +48,10 @@ warning 6002: The table/view 'PiedPiperIN.dbo.products' does not have a primary 
         <EntityContainer Name="PiedPiperINModelStoreContainer">
           <EntitySet Name="cart_view" EntityType="Self.cart_view" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="orders" EntityType="Self.orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="products" EntityType="Self.products" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user_profile" EntityType="Self.user_profile" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="products" EntityType="Self.products" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [products].[Product ID] AS [Product ID], 
-    [products].[Product_Name] AS [Product_Name], 
-    [products].[Product_Pic] AS [Product_Pic]
-    FROM [dbo].[products] AS [products]</DefiningQuery>
-          </EntitySet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PiedPiperINModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -101,6 +93,7 @@ warning 6002: The table/view 'PiedPiperIN.dbo.products' does not have a primary 
           <Property Name="Product_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Product_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Product_Pic" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Product_Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityContainer Name="PiedPiperINEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="cart_view" EntityType="Self.cart_view" />
@@ -151,6 +144,7 @@ warning 6002: The table/view 'PiedPiperIN.dbo.products' does not have a primary 
           <EntitySetMapping Name="products">
             <EntityTypeMapping TypeName="PiedPiperINModel.product">
               <MappingFragment StoreEntitySet="products">
+                <ScalarProperty Name="Product_Image" ColumnName="Product_Image" />
                 <ScalarProperty Name="Product_ID" ColumnName="Product ID" />
                 <ScalarProperty Name="Product_Name" ColumnName="Product_Name" />
                 <ScalarProperty Name="Product_Pic" ColumnName="Product_Pic" />

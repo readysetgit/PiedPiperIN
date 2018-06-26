@@ -71,7 +71,7 @@ namespace PiedPiperIN.Controllers
         {
             var db = new PiedPiperINEntities();
 
-            return View(db.product.ToList());
+            return View(db.products.ToList());
         }
 
         [HttpPost]

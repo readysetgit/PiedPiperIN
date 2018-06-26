@@ -17,5 +17,6 @@ namespace PiedPiperIN.Models
         public int Product_ID { get; set; }
         public string Product_Name { get; set; }
         public string Product_Pic { get; set; }
+        public string Product_Image { get; set; }
     }
 }
