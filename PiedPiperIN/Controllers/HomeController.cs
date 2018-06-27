@@ -127,16 +127,22 @@ namespace PiedPiperIN.Controllers
                 }
                 else
                 {
-                    var count = db.cart_view.Where(m => m.prdouct_id == pro_id).ToString();
+                    int qty_b = 0;
+                    var count = db.cart_view.Where(m => m.prdouct_id == pro_id).ToList();
                     foreach(var x in count)
                     {
-                        int 
+                        qty_b = (int)x.Quantity;
+
                     }
+
+                    cart = db.cart_view.FirstOrDefault(m => m.prdouct_id == pro_id);
+                    
+                    cart.Quantity = qty_b + int.Parse(qty);
+                    cart.price = (qty_b + int.Parse(qty)) * int.Parse(price);
+                    db.SaveChanges();
+                    
                 }
-               
-             
-                
-               
+                                                
 
             }
             PiedPiperINEntities db1 = new PiedPiperINEntities();
