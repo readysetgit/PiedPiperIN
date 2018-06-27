@@ -47,6 +47,9 @@ namespace PiedPiperIN.Controllers
 
             }
 
+            
+
+
             else
             {
                 Session["wrong"] = "true";
@@ -67,7 +70,7 @@ namespace PiedPiperIN.Controllers
         {
             PiedPiperINEntities db = new PiedPiperINEntities();
 
-            return View(db.products.ToList());
+            return View(db.product.ToList());
         }
 
         [HttpPost]
@@ -100,6 +103,15 @@ namespace PiedPiperIN.Controllers
             using (PiedPiperINEntities db = new PiedPiperINEntities())
             {
                 cart_view cart = new cart_view();
+                SqlConnection conn = new SqlConnection("Data Source=SHAREPOINT;Initial Catalog=PiedPiperIN;Persist Security Info=True;User ID=sa;Password=B@cstech135");
+                conn.Open();
+                SqlCommand sqlCmd = new SqlCommand("addtocart", conn);
+                sqlCmd.CommandType = System.Data.CommandType.StoredProcedure;
+                sqlCmd.Parameters.AddWithValue(qty,cart.Quantity);
+                // int result = command.ExecuteNonQuery();
+
+
+                ////////////////////////////////////////////////////
                 cart.prdouct_id = Convert.ToInt32(id);
                 cart.Quantity = Convert.ToInt32(qty);
                 

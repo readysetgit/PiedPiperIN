@@ -125,7 +125,9 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Web.Config" />
+    <Content Include="Web.Config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Home\UserDashBoard.cshtml" />
     <Content Include="Views\Product\UploadProduct.cshtml" />
     <None Include="Web.Debug.Config">
