@@ -70,6 +70,14 @@ namespace PiedPiperIN.Controllers
             dashboardView.Product = db.product.ToList();
             int uid = Convert.ToInt32(Session["id"]);
             dashboardView.Cart = db.cart_view.Where(k=>k.id==uid).ToList();
+            int total = 0;
+
+            foreach (var x in db.cart_view.Where(k => k.id == uid))
+            {
+                total = total + (int)x.price;
+            }
+            Session["total"] = total;
+            total = 0;
             return View(dashboardView);
 
         }
@@ -104,16 +112,29 @@ namespace PiedPiperIN.Controllers
             using (PiedPiperINEntities db = new PiedPiperINEntities())
             {
                 cart_view cart = new cart_view();
-                
+                int pro_id = int.Parse(pid);
                 cart.prdouct_id = int.Parse(pid);
                 cart.id =Convert.ToInt32(Session["id"]);
                 cart.product_name = pname;
                 cart.Quantity = int.Parse(qty);
-                cart.price = int.Parse(price) * int.Parse(qty); 
-            
-                
+                cart.price = int.Parse(price) * int.Parse(qty);
+                // = Convert.ToInt32(Session["id"]);
+                var obj = db.cart_view.Where(m => m.prdouct_id == pro_id).FirstOrDefault();
+                if(obj==null)
+                {
                     db.cart_view.Add(cart);
                     db.SaveChanges();
+                }
+                else
+                {
+                    var count = db.cart_view.Where(m => m.prdouct_id == pro_id).ToString();
+                    foreach(var x in count)
+                    {
+                        int 
+                    }
+                }
+               
+             
                 
                
 
@@ -123,7 +144,13 @@ namespace PiedPiperIN.Controllers
             int uid = Convert.ToInt32(Session["id"]);
             dashboardView.Cart = db1.cart_view.Where(k => k.id == uid).ToList();
             dashboardView.Product = db1.product.ToList();
-
+            int total = 0;
+            foreach (var x in db1.cart_view.Where(k => k.id == uid))
+            {
+                total = total + (int)x.price;
+            }
+            Session["total"] = total;
+            total = 0;
             return View("UserDashBoard", dashboardView);
                 
         }
