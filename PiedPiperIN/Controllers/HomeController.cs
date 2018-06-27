@@ -8,7 +8,7 @@ using System.Web.Mvc;
 using System.Web.UI;
 using PiedPiperIN.Models;
 namespace PiedPiperIN.Controllers
-{
+{ 
     public class HomeController : Controller
     {
         public object Email { get; private set; }
@@ -39,16 +39,11 @@ namespace PiedPiperIN.Controllers
 
             if (obj != null)
             {
-                Session["Id"] = obj.ID.ToString();
-                Session["Email"] = obj.Email.ToString();
-                Session["Role"] = obj.Role.ToString();
-                Session["Name"] = obj.Name.ToString();
+                Session["id"] = obj.ID.ToString();
+               
                 return RedirectToAction("UserDashBoard");
 
             }
-
-            
-
 
             else
             {
@@ -66,16 +61,21 @@ namespace PiedPiperIN.Controllers
         /// </summary>
         /// <returns></returns>
         ///
+        [HttpGet]
         public ActionResult UserDashBoard()
         {
             PiedPiperINEntities db = new PiedPiperINEntities();
 
-            return View(db.product.ToList());
+            DashboardViewModel dashboardView = new DashboardViewModel();
+            dashboardView.Product = db.product.ToList();
+            int uid = Convert.ToInt32(Session["id"]);
+            dashboardView.Cart = db.cart_view.Where(k=>k.id==uid).ToList();
+            return View(dashboardView);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name,Email,Password,Address")] user_profile user_profile)
+        public ActionResult Create_user([Bind(Include = "Name,Email,Password,Address")] user_profile user_profile)
         {
             PiedPiperINEntities db = new PiedPiperINEntities();
             if (ModelState.IsValid)
@@ -95,29 +95,36 @@ namespace PiedPiperIN.Controllers
 
         }
         [HttpPost]
-        public ActionResult addtocart(string qty)
+        public ActionResult addtocart(string pid, string pname, string qty, string price)
         {
             // PiedPiperINEntities db = new PiedPiperINEntities();
-           var id= Session["pid"];
-            var  name= Session["product_name"];
+
+
             using (PiedPiperINEntities db = new PiedPiperINEntities())
             {
                 cart_view cart = new cart_view();
-                SqlConnection conn = new SqlConnection("Data Source=SHAREPOINT;Initial Catalog=PiedPiperIN;Persist Security Info=True;User ID=sa;Password=B@cstech135");
-                conn.Open();
-                SqlCommand sqlCmd = new SqlCommand("addtocart", conn);
-                sqlCmd.CommandType = System.Data.CommandType.StoredProcedure;
-                sqlCmd.Parameters.AddWithValue(qty,cart.Quantity);
-                // int result = command.ExecuteNonQuery();
-
-
-                ////////////////////////////////////////////////////
-                cart.prdouct_id = Convert.ToInt32(id);
-                cart.Quantity = Convert.ToInt32(qty);
                 
-            }
+                cart.prdouct_id = int.Parse(pid);
+                cart.id =Convert.ToInt32(Session["id"]);
+                cart.product_name = pname;
+                cart.Quantity = int.Parse(qty);
+                cart.price = int.Parse(price) * int.Parse(qty); 
+            
+                
+                    db.cart_view.Add(cart);
+                    db.SaveChanges();
+                
+               
 
-                return View();
+            }
+            PiedPiperINEntities db1 = new PiedPiperINEntities();
+            DashboardViewModel dashboardView = new DashboardViewModel();
+            int uid = Convert.ToInt32(Session["id"]);
+            dashboardView.Cart = db1.cart_view.Where(k => k.id == uid).ToList();
+            dashboardView.Product = db1.product.ToList();
+
+            return View("UserDashBoard", dashboardView);
+                
         }
 }
 }

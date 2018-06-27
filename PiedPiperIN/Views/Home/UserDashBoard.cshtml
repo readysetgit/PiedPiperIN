@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PiedPiperIN.Models.product>
+﻿@model PiedPiperIN.Models.DashboardViewModel
 
 @{
     ViewBag.Title = "UserDashBoard";
@@ -12,43 +12,90 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Product_ID)
+            Product ID
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Product_Name)
+            Product Name
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Product_Pic)
+            Price
+        </th>
+        <th>
+            Image
         </th>
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.Product)
     {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Product_ID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Product_Name)
-        </td>
-        <td>
-          <img src="~/Content/@Html.DisplayFor(modelItem => item.Product_Pic)" width="100px" height="100px"/>
-        </td>
-        
-        <td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product_Price)
+            </td>
+            <td>
+                <img src="~/Content/@Html.DisplayFor(modelItem => item.Product_Pic)" width="100" height="100" />
+            </td>
 
-            <form method="post" action="@Url.Action("addtocart", "Home")">
-               
-                @Session["pid"]=item.Product_ID;
+            <td>
 
-                <input type="text"  name="username" /> <br />
-                <input type="submit" value="Add to cart">
+                @using (Html.BeginForm("addtocart", "Home", FormMethod.Post))
+                {
 
+                    <input type="hidden" value="@Html.DisplayFor(modelItem => item.Product_ID)" name="pid" />
+                    <input type="hidden" value="@Html.DisplayFor(modelItem => item.Product_Name)" name="pname" />
+                    <input type="hidden" value="@Html.DisplayFor(modelItem => item.Product_Price)" name="price" />
+                    <input type="text" name="qty" placeholder="Quantity" /> <br />
+                    <input type="submit" value="Add to cart">
+                }
 
-                </form>
-</td>
-    </tr>
+            </td>
+        </tr>
     }
 
-</table>
+
+
+    <table class="table">
+        <tr>
+            <th>
+                Product ID
+            </th>
+            <th>
+                Product Name
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th>
+                Price
+            </th>
+
+        </tr>
+
+        @foreach (var item in Model.Cart)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.prdouct_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.product_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => (item.price))
+                </td>
+
+
+            </tr>
+        }
+
+    </table>
+
