@@ -3,12 +3,15 @@
 @{
     ViewBag.Title = "UserDashBoard";
 }
+<!DOCTYPE HTML>
 <html>
+<body>
 <h2>UserDashBoard</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+<div>
 <table class="table">
     <tr>
         <th>
@@ -57,8 +60,10 @@
             </td>
         </tr>
     }
-
-
+    </table>
+</div>
+<div>
+    <h3>Your Cart</h3>
     <table class="table">
         <tr>
             <th>
@@ -79,23 +84,28 @@
         @foreach (var item in Model.Cart)
         {
 
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.prdouct_id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.product_name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Quantity)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => (item.price))
-                    
-                </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.prdouct_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.product_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => (item.price))
+
+            </td>
+            <td>
+            
+
+            </td>
 
 
-            </tr>
+
+        </tr>
         }
 
 
@@ -103,5 +113,6 @@
     <br />
     <h3>Total Price</h3>
     <span style="color:orangered;">@Session["total"]</span>
-
+   </div>
+    </body>
 </html>
