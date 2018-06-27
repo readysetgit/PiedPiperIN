@@ -130,6 +130,7 @@
     </Content>
     <Content Include="Views\Home\UserDashBoard.cshtml" />
     <Content Include="Views\Product\UploadProduct.cshtml" />
+    <Content Include="Views\Home\Invoice.cshtml" />
     <None Include="Web.Debug.Config">
       <DependentUpon>Web.Config</DependentUpon>
     </None>

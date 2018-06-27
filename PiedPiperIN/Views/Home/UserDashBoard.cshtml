@@ -5,121 +5,131 @@
 }
 <!DOCTYPE HTML>
 <html>
+
 <body>
-<h2>UserDashBoard</h2>
+    <h2>UserDashBoard</h2>
 
-<p>
-    @Html.ActionLink("Upload Product","UploadProduct", "Product")
-</p>
-<div>
-<table class="table">
-    <tr>
-        <th>
-            Product ID
-        </th>
-        <th>
-            Product Name
-        </th>
-        <th>
-            Price
-        </th>
-        <th>
-            Image
-        </th>
-        <th></th>
-    </tr>
+    <p>
+        @Html.ActionLink("Upload Product", "UploadProduct", "Product")
+    </p>
+    <div>
+        <table class="table">
+            <tr>
+                <th>
+                    Product ID
+                </th>
+                <th>
+                    Product Name
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Image
+                </th>
+                <th></th>
+            </tr>
 
-    @foreach (var item in Model.Product)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Product_ID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Product_Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Product_Price)
-            </td>
-            <td>
-                <img src="~/Content/@Html.DisplayFor(modelItem => item.Product_Pic)" width="100" height="100" />
-            </td>
+            @foreach (var item in Model.Product)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product_ID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product_Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product_Price)
+                    </td>
+                    <td>
+                        <img src="~/Content/@Html.DisplayFor(modelItem => item.Product_Pic)" width="100" height="100" />
+                    </td>
 
-            <td>
+                    <td>
 
-                @using (Html.BeginForm("addtocart", "Home", FormMethod.Post))
-                {
+                        @using (Html.BeginForm("addtocart", "Home", FormMethod.Post))
+                        {
 
-                    <input type="hidden" value="@Html.DisplayFor(modelItem => item.Product_ID)" name="pid" />
-                    <input type="hidden" value="@Html.DisplayFor(modelItem => item.Product_Name)" name="pname" />
-                    <input type="hidden" value="@Html.DisplayFor(modelItem => item.Product_Price)" name="price" />
-                    <input type="text" name="qty" placeholder="Quantity" /> <br />
-                    <input type="submit" value="Add to cart">
-                }
+                            <input type="hidden" value="@Html.DisplayFor(modelItem => item.Product_ID)" name="pid" id="pid" />
+                            <input type="hidden" value="@Html.DisplayFor(modelItem => item.Product_Name)" name="pname" id="pname" />
+                            <input type="hidden" value="@Html.DisplayFor(modelItem => item.Product_Price)" name="price" id="price" />
+                            <input type="hidden" value="@Html.DisplayFor(modelItem => item.Product_category)" name="category" id="category" />
+                            <input type="text" name="qty" placeholder="Quantity" /> <br />
+                            <input type="submit" value="Add to cart">
+                        }
 
-            </td>
-        </tr>
-    }
-    </table>
-</div>
-<div>
-    <h3>Your Cart</h3>
-    <table class="table">
-        <tr>
-            <th>
-                Product ID
-            </th>
-            <th>
-                Product Name
-            </th>
-            <th>
-                Quantity
-            </th>
-            <th>
-                Price
-            </th>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div>
+        <h3>Your Cart</h3>
+        <table class="table">
+            <tr>
+                <th>
+                    Product ID
+                </th>
+                <th>
+                    Product Name
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Price
+                </th>
 
-        </tr>
+            </tr>
 
-        @foreach (var item in Model.Cart)
-        {
+            @foreach (var item in Model.Cart)
+            {
 
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.prdouct_id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.product_name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => (item.price))
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.prdouct_id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.product_name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => (item.price))
 
-            </td>
-            <td>
-                @using (Html.BeginForm("updateCart", "Home", FormMethod.Post))
-                {
-                    <input type="hidden" value="@Html.DisplayFor(modelItem => item.prdouct_id)" name="pid" />
-                    <input type="hidden" value="@Html.DisplayFor(modelItem => item.product_name)" name="pname" />
-                    <input type="hidden" value="@Html.DisplayFor(modelItem => item.price)" name="price" />
-                    <input type="submit" value="Delete">
+                    </td>
+                    <td>
+                        @using (Html.BeginForm("updateCart", "Home", FormMethod.Post))
+                        {
+                            <input type="hidden" value="@Html.DisplayFor(modelItem => item.prdouct_id)" name="pid" />
+                            <input type="hidden" value="@Html.DisplayFor(modelItem => item.product_name)" name="pname" />
+                            <input type="hidden" value="@Html.DisplayFor(modelItem => item.price)" name="price" />
+                            
+                            <input type="submit" value="Delete">
 
-                }
+                        }
 
-            </td>
-
-
-
-        </tr>
-        }
+                    </td>
 
 
-    </table>
-    <br />
-    <h3>Total Price</h3>
-    <span style="color:orangered;">@Session["total"]</span>
-   </div>
-    </body>
+
+                </tr>
+            }
+            <tr>
+                <td></td>
+                <td></td>
+                <td><h4>Total Quantities:<span style="color:brown">@Session["qty"]</span> </h4></td>
+                <td><h4>Total Price: <span style="color:brown">@Session["total"]</span></h4></td>
+            </tr>
+
+        </table>
+
+        <br />
+    </div>
+    <p style="color:brown; font-size:20px" >
+        @Html.ActionLink("Buy Now", "Invoice", "Home")
+    </p>
+</body>
 </html>

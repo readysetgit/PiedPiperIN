@@ -78,10 +78,10 @@ namespace PiedPiperIN.Controllers
         public ActionResult EditProduct(DashboardViewModel passedproduct)
         {
             PiedPiperINEntities productdb = new PiedPiperINEntities();
-            
+
 
             //product toeditproduct = new product();
-            
+
             //if (pid != null)
             //{
             //    toeditproduct = productdb.product.Where(k => k.Product_ID == pid))
