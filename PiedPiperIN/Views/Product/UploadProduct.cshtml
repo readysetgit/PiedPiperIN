@@ -1,4 +1,5 @@
 ﻿@model PiedPiperIN.Models.product
+
 @{
     ViewBag.Title = "UploadProduct";
 }
@@ -12,17 +13,21 @@
 
 
 
-
-    @Html.TextBoxFor(model => model.Product_Name, new { htmlAttributes = new { @class = "form-control" } });
-
    
+        @Html.TextBoxFor(m=> Model.Product_Name, new { Value = "Enter Product Name", @class = "form-control" });<br />
+        @Html.TextBoxFor(model => Model.Product_Price , new { Value = "Enter Product Price", @class = "form-control" });<br />
+    
 
-    <div>
-        @Html.TextBox("file", "", new { type = "file" }) <br />
-        <input type="submit" value="Upload" />
-       
-    </div>
 
+
+
+
+<div>
+    @Html.TextBox("file", "", new { type = "file" }) <br />
+    <input type="submit" value="Upload" />
+
+</div>
 
 }
 
+@Html.ActionLink("Edit", "EditProduct", "Home");
