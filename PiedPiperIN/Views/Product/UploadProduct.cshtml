@@ -4,25 +4,17 @@
 }
 
 <h2>@ViewBag.Head</h2>
-<html>
-<head>
-    <script type="text/javascript">
-        function update(var name, var price)
-            {
-                document.GetElementById("pname").value = name;
-                 document.GetElementById("price").value = price;
-            }
-    </script>
-</head>
-@using (Html.BeginForm("newProduct", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+
+
+@using (Html.BeginForm("NewProduct", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
 
-
-    <input type="text" value="Product Name" name="Product_Name" id="pname" />
-    <input type="text" value="Product Price" name="Product_Price" id="price" />
+    <input type="hidden" value="@ViewBag.id" name="Product_ID" />
+    <input type="text" value="@ViewBag.name" name="Product_Name" />
+    <input type="text" value="@ViewBag.price" name="Product_Price" />
     @Html.TextBox("file", "", new { type = "file" }) <br />
 
-    <input type="submit" value="Upload"  />
+    <input type="submit" value="Upload" />
 
 
 
@@ -67,14 +59,16 @@
 
             <td>
 
-              
-              
-                    <input type="hidden" value="@Html.DisplayFor(modelitem => item.Product_ID)" name="pid" />
-                    <input type="submit" value="edit" onclick="update(@item.Product_Name, @item.Product_Price)">
-               
 
-        </tr>
+                @using (Html.BeginForm("FillUploadBox", "Product", FormMethod.Post))
+                {
+                <input type="hidden" value="@Html.DisplayFor(modelitem => item.Product_ID)" name="pid"  />
+                <input type="hidden" value="@Html.DisplayFor(modelitem => item.Product_Name)" name="pname"  />
+                <input type="hidden" value="@Html.DisplayFor(modelitem => item.Product_Price)" name="pprice"  />
+                <input type = "submit" value = "edit" />
+                }
+
+</tr>
 
     }
 </table>
-</html>
