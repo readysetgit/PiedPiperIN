@@ -71,6 +71,7 @@ namespace PiedPiperIN.Controllers
             int uid = Convert.ToInt32(Session["id"]);
             dashboardView.Cart = db.cart_view.Where(k=>k.id==uid).ToList();
             return View(dashboardView);
+
         }
 
         [HttpPost]
