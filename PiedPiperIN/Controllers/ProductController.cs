@@ -19,10 +19,10 @@ namespace PiedPiperIN.Controllers
             dash.Product = productdb.product.ToList();
             dash.Cart = productdb.cart_view.ToList();
 
-            @ViewBag.name = pname;
-            @ViewBag.id = pid;
-            @ViewBag.Price = pprice;
-
+            ViewBag.name = pname;
+            ViewBag.id = pid;
+            ViewBag.Price = pprice;
+            
 
             return View("UploadProduct",dash);
         }
