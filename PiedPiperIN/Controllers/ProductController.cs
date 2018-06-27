@@ -17,7 +17,7 @@ namespace PiedPiperIN.Controllers
         {
             PiedPiperINEntities productdb = new PiedPiperINEntities();
             DashboardViewModel dash = new DashboardViewModel();
-            
+
             dash.Product = productdb.product.ToList();
             dash.Cart = productdb.cart_view.ToList();
 
@@ -28,30 +28,36 @@ namespace PiedPiperIN.Controllers
 
         
         [HttpPost]
-        public ActionResult UploadProduct(DashboardViewModel newproduct, HttpPostedFileBase file)
+        public ActionResult newProduct(product newproduct, HttpPostedFileBase file)
         {
+            DashboardViewModel dash = new DashboardViewModel();
+            PiedPiperINEntities productdb = new PiedPiperINEntities();
+           
             ViewBag.Head = "Upload Product";
             
             {
-                DashboardViewModel productmodel = new DashboardViewModel();
+                product productmodel = new product();
 
                 if (file.ContentLength > 0)
                 {
                     string _FileName = Path.GetFileName(file.FileName);
                     string _path = Path.Combine(Server.MapPath("/Content/"), _FileName);
-                    productmodel.Product. = _FileName;
+                    productmodel.Product_Pic = _FileName;
                     //productmodel.FileName = _FileName;  //This is an HTTPPostedFileBase, check if code runs without this
-                    productmodel.Product_Name = newproduct.Product.;
+                    productmodel.Product_Name = newproduct.Product_Name;
+                    productmodel.Product_Price = newproduct.Product_Price;
                     file.SaveAs(_path);
 
                 }
-                using (PiedPiperINEntities productdb = new PiedPiperINEntities())
+                using (PiedPiperINEntities db = new PiedPiperINEntities())
                 {
-                    productdb.product.Add(productmodel);
-                    productdb.SaveChanges();
+                    db.product.Add(productmodel);
+                    db.SaveChanges();
                 }
                 ViewBag.Message = "File Uploaded Successfully!!";
-                return View();
+                dash.Product = productdb.product.ToList();
+                dash.Cart = productdb.cart_view.ToList();
+                return View("UploadProduct",dash);
                 
             }
 

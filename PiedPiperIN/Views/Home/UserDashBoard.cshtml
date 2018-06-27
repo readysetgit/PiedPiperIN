@@ -99,7 +99,14 @@
 
             </td>
             <td>
-            
+                @using (Html.BeginForm("updateCart", "Home", FormMethod.Post))
+                {
+                    <input type="hidden" value="@Html.DisplayFor(modelItem => item.prdouct_id)" name="pid" />
+                    <input type="hidden" value="@Html.DisplayFor(modelItem => item.product_name)" name="pname" />
+                    <input type="hidden" value="@Html.DisplayFor(modelItem => item.price)" name="price" />
+                    <input type="submit" value="Delete">
+
+                }
 
             </td>
 
