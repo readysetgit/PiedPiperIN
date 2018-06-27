@@ -21,15 +21,17 @@ namespace PiedPiperIN.Controllers
             
         }
 
-        public ActionResult EditProduct(string id)
+        [HttpGet]
+        public ActionResult EditProduct()
         {
-            PiedPiperINEntities productdb = new PiedPiperINEntities();
-            var prod = productdb.product.Where(p => p.Product_ID == Convert.ToInt32(id));
-           return  View(prod);
+            //prod
+            //var prod = productdb.product.Where(p => p.Product_ID == Convert.ToInt32(id));
+            
+            return  View();
         }
 
         [HttpPost]
-        public ActionResult EditProduct(product product)
+        public ActionResult EditProduct(product newproduct, HttpPostedFileBase file)
         {
             if(product != null)
             {
