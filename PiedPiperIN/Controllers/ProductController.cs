@@ -28,71 +28,79 @@ namespace PiedPiperIN.Controllers
 
         
         [HttpPost]
-        public ActionResult newProduct(product newproduct, HttpPostedFileBase file)
+        public ActionResult NewProduct(product newproduct, HttpPostedFileBase file)
         {
+            { 
             DashboardViewModel dash = new DashboardViewModel();
             PiedPiperINEntities productdb = new PiedPiperINEntities();
-           
-            ViewBag.Head = "Upload Product";
-            
-            {
                 product productmodel = new product();
-
-                if (file.ContentLength > 0)
-                {
-                    string _FileName = Path.GetFileName(file.FileName);
-                    string _path = Path.Combine(Server.MapPath("/Content/"), _FileName);
-                    productmodel.Product_Pic = _FileName;
-                    //productmodel.FileName = _FileName;  //This is an HTTPPostedFileBase, check if code runs without this
-                    productmodel.Product_Name = newproduct.Product_Name;
-                    productmodel.Product_Price = newproduct.Product_Price;
-                    file.SaveAs(_path);
-
-                }
-                using (PiedPiperINEntities db = new PiedPiperINEntities())
-                {
-                    db.product.Add(productmodel);
-                    db.SaveChanges();
-                }
-                ViewBag.Message = "File Uploaded Successfully!!";
-                dash.Product = productdb.product.ToList();
-                dash.Cart = productdb.cart_view.ToList();
-                return View("UploadProduct",dash);
+                var existingproduct = productdb.product.Find(newproduct.Product_ID);    
                 
+                
+                    
+
+                    if (file.ContentLength > 0)
+                    {
+                        string _FileName = Path.GetFileName(file.FileName);
+                        string _path = Path.Combine(Server.MapPath("/Content/"), _FileName);
+                        productmodel.Product_Pic = _FileName;
+                        //productmodel.FileName = _FileName;  //This is an HTTPPostedFileBase, check if code runs without this
+                        productmodel.Product_Name = newproduct.Product_Name;
+                        productmodel.Product_Price = newproduct.Product_Price;
+                        file.SaveAs(_path);
+
+                    }
+
+                if (existingproduct == null)
+                     {
+                        productdb.product.Add(productmodel);
+                        productdb.SaveChanges();
+                    }
+                else
+                {
+                    productdb.Entry(existingproduct).CurrentValues.SetValues(productmodel);
+                }
+                    ViewBag.Message = "File Uploaded Successfully!!";
+                    dash.Product = productdb.product.ToList();
+                    dash.Cart = productdb.cart_view.ToList();
+                    return View("UploadProduct", dash);
+                
+              
             }
 
 
            
          }
 
-        [HttpGet]
-        public ActionResult EditProduct()
-        {
-            //prod
-            //var prod = productdb.product.Where(p => p.Product_ID == Convert.ToInt32(id));
+        //[HttpGet]
+        //public ActionResult EditProduct()
+        //{
+        //    //prod
+        //    //var prod = productdb.product.Where(p => p.Product_ID == Convert.ToInt32(id));
 
-            return View();
-        }
+        //    return View();
+        //}
 
-        [HttpPost]
-        public ActionResult EditProduct(DashboardViewModel passedproduct)
-        {
-            PiedPiperINEntities productdb = new PiedPiperINEntities();
-            
+        //[HttpPost]
+        //public actionresult editproduct(string pid, string name, string price, string picpath)
+        //{
+        //    piedpiperinentities productdb = new piedpiperinentities();
+        //    product editedproduct = new product();
+        //    editedproduct =
 
-            //product toeditproduct = new product();
-            
-            //if (pid != null)
-            //{
-            //    toeditproduct = productdb.product.Where(k => k.Product_ID == pid))
-            //    productdb.product.Attach()
-            //    if (result != null)
-            //    {
-            //        pro.Product_Price = "Some new value";
-            //        db.SaveChanges();
-            //    }
-            //}
-            return View();
-        }
+        //    product toeditproduct = new product();
+
+        //    if (pid != null)
+        //    {
+        //        toeditproduct = productdb.product.where(k => k.product_id == pid))
+        //        productdb.product.attach()
+        //        if (result != null)
+        //        {
+        //            pro.product_price = "some new value";
+        //            db.savechanges();
+        //        }
+        //    }
+        //    return view();
+        //}
     }
 }

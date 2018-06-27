@@ -6,7 +6,7 @@
 <h2>@ViewBag.Head</h2>
 
 
-@using (Html.BeginForm("newProduct", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("NewProduct", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
 
 
@@ -63,10 +63,14 @@
                 {
 
                     <input type="hidden" value="@Html.DisplayFor(modelitem => item.Product_ID)" name="pid" />
+                    <input type="hidden" value="@Html.DisplayFor(modelitem => item.Product_Name)" name="name" />
+                    <input type="hidden" value="@Html.DisplayFor(modelitem => item.Product_Price)" name="price" />
+                    <input type="hidden" value="@Html.DisplayFor(modelitem => item.Product_Pic)" name="picpath" />
+
                     <input type="submit" value="edit">
                 }
 
-        </tr>
+</tr>
 
     }
 </table>
