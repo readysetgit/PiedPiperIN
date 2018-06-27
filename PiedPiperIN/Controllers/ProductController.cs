@@ -17,7 +17,7 @@ namespace PiedPiperIN.Controllers
         {
             PiedPiperINEntities productdb = new PiedPiperINEntities();
             DashboardViewModel dash = new DashboardViewModel();
-
+            
             dash.Product = productdb.product.ToList();
             dash.Cart = productdb.cart_view.ToList();
 
@@ -28,20 +28,20 @@ namespace PiedPiperIN.Controllers
 
         
         [HttpPost]
-        public ActionResult UploadProduct(product newproduct, HttpPostedFileBase file)
+        public ActionResult UploadProduct(DashboardViewModel newproduct, HttpPostedFileBase file)
         {
             ViewBag.Head = "Upload Product";
             
             {
-                product productmodel = new product();
+                DashboardViewModel productmodel = new DashboardViewModel();
 
                 if (file.ContentLength > 0)
                 {
                     string _FileName = Path.GetFileName(file.FileName);
                     string _path = Path.Combine(Server.MapPath("/Content/"), _FileName);
-                    productmodel.Product_Pic = _FileName;
+                    productmodel.Product. = _FileName;
                     //productmodel.FileName = _FileName;  //This is an HTTPPostedFileBase, check if code runs without this
-                    productmodel.Product_Name = newproduct.Product_Name;
+                    productmodel.Product_Name = newproduct.Product.;
                     file.SaveAs(_path);
 
                 }
