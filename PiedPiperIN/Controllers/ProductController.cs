@@ -14,33 +14,15 @@ namespace PiedPiperIN.Controllers
 
         [HttpGet]
         public ActionResult UploadProduct()
-        { 
+        {
+            DashboardViewModel dash = new DashboardViewModel();
 
             ViewBag.Head = "Upload Product";
-                return View();
+                return View(dash);
             
         }
 
-        [HttpGet]
-        public ActionResult EditProduct()
-        {
-            //prod
-            //var prod = productdb.product.Where(p => p.Product_ID == Convert.ToInt32(id));
-            
-            return  View();
-        }
-
-        [HttpPost]
-        public ActionResult EditProduct(product newproduct, HttpPostedFileBase file)
-        {
-            if(product != null)
-            {
-
-            }
-            return View();
-        }
-
-
+        
         [HttpPost]
         public ActionResult UploadProduct(product newproduct, HttpPostedFileBase file)
         {
@@ -68,7 +50,28 @@ namespace PiedPiperIN.Controllers
                 return View();
                 
             }
-            
+
+
+           
+         }
+
+        [HttpGet]
+        public ActionResult EditProduct()
+        {
+            //prod
+            //var prod = productdb.product.Where(p => p.Product_ID == Convert.ToInt32(id));
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult EditProduct(product newproduct, HttpPostedFileBase file)
+        {
+            if (newproduct != null)
+            {
+
+            }
+            return View();
         }
     }
 }

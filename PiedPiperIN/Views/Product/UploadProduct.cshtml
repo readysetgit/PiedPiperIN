@@ -1,4 +1,4 @@
-﻿@model PiedPiperIN.Models.product
+﻿@model PiedPiperIN.Models.DashboardViewModel
 
 @{
     ViewBag.Title = "UploadProduct";
@@ -14,7 +14,7 @@
 
 
    
-        @Html.TextBoxFor(m=> Model.Product_Name, new { Value = "Enter Product Name", @class = "form-control" });<br />
+        @Html.TextBoxFor(m=> , new { Value = "Enter Product Name", @class = "form-control" });<br />
         @Html.TextBoxFor(model => Model.Product_Price , new { Value = "Enter Product Price", @class = "form-control" });<br />
     
 
@@ -31,4 +31,53 @@
 }
 <br />
 
-@Html.ActionLink("Edit Existing Product List", "EditProduct", "Product", null)
+@*@Html.ActionLink("Edit Existing Product List", "EditProduct", "Product", null)*@
+
+
+<table
+<tr>
+    <th>
+        Product ID
+    </th>
+    <th>
+        Product Name
+    </th>
+    <th>
+        Price
+    </th>
+    <th>
+        Image
+    </th>
+    <th></th>
+</tr>
+
+    @foreach(var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product_Price)
+            </td>
+            <td>
+                <img src="~/Content/@Html.DisplayFor(modelItem => item.Product_Pic)" width="100" height="100" />
+            </td>
+
+            <td>
+
+                @using (Html.BeginForm("addtocart", "Home", FormMethod.Post))
+                {
+
+                    <input type="hidden" value="@Html.DisplayFor(modelItem => item.Product_ID)" name="pid" />
+                    @*<input type="text" name="qty" placeholder="Quantity" /> <br />*@
+                    <input type="submit" value="Edit">
+                }
+
+            </td>
+        </tr>
+    }
+</table>
