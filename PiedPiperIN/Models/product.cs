@@ -18,5 +18,6 @@ namespace PiedPiperIN.Models
         public string Product_Name { get; set; }
         public string Product_Pic { get; set; }
         public Nullable<int> Product_Price { get; set; }
+        public Nullable<int> Product_category { get; set; }
     }
 }

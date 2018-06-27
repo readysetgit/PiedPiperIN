@@ -20,5 +20,7 @@ namespace PiedPiperIN.Models
         public int session_id { get; set; }
         public Nullable<int> Quantity { get; set; }
         public Nullable<int> price { get; set; }
+        public Nullable<double> taxable_price { get; set; }
+        public Nullable<int> category { get; set; }
     }
 }
