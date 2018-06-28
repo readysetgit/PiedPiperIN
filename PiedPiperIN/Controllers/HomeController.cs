@@ -93,7 +93,7 @@ namespace PiedPiperIN.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View(objUser);
+            
 
 
 
