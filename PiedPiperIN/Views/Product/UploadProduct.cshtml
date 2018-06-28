@@ -60,32 +60,35 @@
 
             @foreach (var item in Model.Product)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelitem => item.Product_ID)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelitem => item.Product_Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelitem => item.Product_Price)
-                    </td>
-                    <td>
-                        <img src="~/content/@Html.DisplayFor(modelitem => item.Product_Pic)" width="100" height="100" />
-                    </td>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelitem => item.Product_ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelitem => item.Product_category)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelitem => item.Product_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelitem => item.Product_Price)
+                </td>
+                <td>
+                    <img src="~/content/@Html.DisplayFor(modelitem => item.Product_Pic)" width="100" height="100" />
+                </td>
 
-                    <td>
+                <td>
 
 
-                        @using (Html.BeginForm("FillUploadBox", "Product", FormMethod.Post))
-                        {
-                            <input type="hidden" value="@Html.DisplayFor(modelitem => item.Product_ID)" name="pid" />
-                            <input type="hidden" value="@Html.DisplayFor(modelitem => item.Product_Name)" name="pname" />
-                            <input type="hidden" value="@Html.DisplayFor(modelitem => item.Product_Price)" name="pprice" />
-                            <input type="submit" value="edit" />
-                        }
+                    @using (Html.BeginForm("FillUploadBox", "Product", FormMethod.Post))
+                    {
+                        <input type="hidden" value="@Html.DisplayFor(modelitem => item.Product_ID)" name="pid" />
+                        <input type="hidden" value="@Html.DisplayFor(modelitem => item.Product_Name)" name="pname" />
+                        <input type="hidden" value="@Html.DisplayFor(modelitem => item.Product_Price)" name="pprice" />
+                        <input type="submit" value="edit" />
+                    }
 
-                </tr>
+            </tr>
 
             }
         </table>
