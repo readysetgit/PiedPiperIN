@@ -11,7 +11,7 @@ namespace PiedPiperIN.Controllers
 {
     public class ProductController : Controller
     {   [HttpPost]
-        public ActionResult FillUploadBox(string pid, string pname, string pprice, string ppic, string pcategory)
+        public ActionResult FillUploadBox(string pid, string pcategory, string pname, string pprice, string ppic )
         {
             PiedPiperINEntities productdb = new PiedPiperINEntities();
             DashboardViewModel dash = new DashboardViewModel();
