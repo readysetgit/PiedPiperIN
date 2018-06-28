@@ -1,8 +1,8 @@
 ﻿@model PiedPiperIN.Models.DashboardViewModel
 @{
-    /**/
+                /**/
 
-    ViewBag.Title = "UploadProduct";
+                ViewBag.Title = "UploadProduct";
 }
 
 <h2 class="page-header" style="position:center">Upload or Edit Product</h2>
@@ -10,58 +10,58 @@
 
 @using (Html.BeginForm("NewProduct", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <div class="col-sm-4">
-        <div class="form-group">
-            <input required class="form-control" type="hidden" value="@ViewBag.id" name="Product_ID" />
-        </div>
-        <div class="form-group">
-            <input required class="form-control" type="text" value="@ViewBag.name" name="Product_Name" placeholder="Product Name" />
-        </div>
-        <div class="form-group">
-            <input required class="form-control" type="text" value="@ViewBag.price" name="Product_Price" placeholder="Product Price" />
-        </div>
-
-        <div class="form-group">
-            <select required class="form-control" name="Product_Category">
-                <option value="" selected disabled hidden>Choose Option</option>
-                <option value="5">Food</option>
-                <option value="12">Electronics</option>
-                <option value="2">Other</option>
-            </select>
-        </div>
-        <div class="form-group">
-            @Html.TextBox("file", "", new { type = "file", @class = "form-control", required = "required" })
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="submit" value="Upload" /><br />
-        </div>
+<div class="col-sm-4">
+    <div class="form-group">
+        <input required class="form-control" type="hidden" value="@ViewBag.id" name="Product_ID"  />
     </div>
+    <div class="form-group">
+        <input required class="form-control" type="text" value="@ViewBag.name" name="Product_Name" placeholder="Product Name" />
+    </div>
+    <div class="form-group">
+        <input required class="form-control" type="text" value="@ViewBag.price" name="Product_Price" placeholder="Product Price"/>
+    </div>
+    
+    <div class="form-group">
+        <select required class="form-control" name="Product_Category" >
+            <option value="" selected disabled hidden>Choose Option</option>
+            <option value="5">Food</option>
+            <option value="12">Electronics</option>
+            <option value="2">Other</option>
+        </select>
+    </div>
+    <div class="form-group">
+        @Html.TextBox("file", "", new { type = "file", @class = "form-control", required = "required" })
+    </div>
+    <div class="form-group">
+        <input class="form-control" type="submit" value="Upload" /><br />
+    </div>
+ </div>
 
-}
+    }
 
-<div class="col-sm-8">
-    <table class="table">
-        <tr>
-            <th>
-                Product ID
-            </th>
-            <th>
-                Product Category(GST %)
-            </th>
-            <th>
-                Product Name
-            </th>
-            <th>
-                Price
-            </th>
-            <th>
-                Image
-            </th>
-            <th></th>
-        </tr>
+    <div class="col-sm-8">
+        <table class="table">
+            <tr>
+                <th>
+                    Product ID
+                </th>
+                <th>
+                    Product Category(GST %)
+                </th>
+                <th>
+                    Product Name
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Image
+                </th>
+                <th></th>
+            </tr>
 
-        @foreach (var item in Model.Product)
-        {
+            @foreach (var item in Model.Product)
+            {
             <tr>
                 <td>
                     @Html.DisplayFor(modelitem => item.Product_ID)
@@ -96,8 +96,8 @@
                         <input type="hidden" value="@Html.DisplayFor(modelitem => item.Product_ID)" name="pid" />
                         <input type="submit" value="Delete" />
                     }
-            </tr>
+                    </tr>
 
-        }
-    </table>
-</div>
+            } 
+        </table>
+    </div>
