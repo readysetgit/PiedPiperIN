@@ -16,7 +16,7 @@ namespace PiedPiperIN.Controllers
             PiedPiperINEntities productdb = new PiedPiperINEntities();
             DashboardViewModel dash = new DashboardViewModel();
 
-            dash.Product = productdb.product.ToList();
+            dash.Product = productdb.products.ToList();
             dash.Cart = productdb.cart_view.ToList();
 
             @ViewBag.name = pname;
@@ -36,7 +36,7 @@ namespace PiedPiperIN.Controllers
             PiedPiperINEntities productdb = new PiedPiperINEntities();
             DashboardViewModel dash = new DashboardViewModel();
 
-            dash.Product = productdb.product.ToList();
+            dash.Product = productdb.products.ToList();
             dash.Cart = productdb.cart_view.ToList();
 
             ViewBag.Head = "Upload Product";
@@ -69,7 +69,7 @@ namespace PiedPiperIN.Controllers
 
 
 
-                productdb.product.Add(productmodel);
+                productdb.products.Add(productmodel);
                 productdb.SaveChanges();
 
             }
@@ -80,7 +80,7 @@ namespace PiedPiperIN.Controllers
                     string _FileName = Path.GetFileName(file.FileName);
                     string _path = Path.Combine(Server.MapPath("/Content/"), _FileName);
                     int pro_id = Convert.ToInt32(newproduct.Product_ID);
-                    productmodel = productdb.product.FirstOrDefault(m => m.Product_ID == pro_id);
+                    productmodel = productdb.products.FirstOrDefault(m => m.Product_ID == pro_id);
                     productmodel.Product_Pic = _FileName;
                     //productmodel.FileName = _FileName;  //This is an HTTPPostedFileBase, check if code runs without this
                     productmodel.Product_Name = newproduct.Product_Name;
@@ -98,7 +98,7 @@ namespace PiedPiperIN.Controllers
 
             }
             ViewBag.Message = "File Uploaded Successfully!!";
-                dash.Product = productdb.product.ToList();
+                dash.Product = productdb.products.ToList();
                 dash.Cart = productdb.cart_view.ToList();
             ViewBag.name = "Product Name";
             ViewBag.id = null;

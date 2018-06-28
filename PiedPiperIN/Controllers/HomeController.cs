@@ -32,10 +32,14 @@ namespace PiedPiperIN.Controllers
             PiedPiperINEntities db = new PiedPiperINEntities();
             DashboardViewModel dashboardView = new DashboardViewModel();
             dashboardView.Cart = db.cart_view.Where(m => m.id == 1).ToList();
+            float total_taxable = 0;
             foreach(var x in dashboardView.Cart)
             {
-                x.taxable_price = (x.price) * ((100 - x.category) / 100);
+                x.taxable_price = (float)(x.price) * (100+ x.category)/100;
+                total_taxable += (float) x.taxable_price;
+
              }
+            Session["taxable"] = total_taxable;
             return View(dashboardView);
         }
         //Firstcommit
@@ -79,7 +83,7 @@ namespace PiedPiperIN.Controllers
             PiedPiperINEntities db = new PiedPiperINEntities();
 
             DashboardViewModel dashboardView = new DashboardViewModel();
-            dashboardView.Product = db.product.ToList();
+            dashboardView.Product = db.products.ToList();
             int uid = Convert.ToInt32(Session["id"]);
             dashboardView.Cart = db.cart_view.Where(k => k.id == uid).ToList();
             int total = 0;
@@ -167,7 +171,7 @@ namespace PiedPiperIN.Controllers
             DashboardViewModel dashboardView = new DashboardViewModel();
             int uid = Convert.ToInt32(Session["id"]);
             dashboardView.Cart = db1.cart_view.Where(k => k.id == uid).ToList();
-            dashboardView.Product = db1.product.ToList();
+            dashboardView.Product = db1.products.ToList();
             int total = 0;
             int total_products = 0;
             foreach (var x in db1.cart_view.Where(k => k.id == uid))
@@ -213,7 +217,7 @@ namespace PiedPiperIN.Controllers
             db.SaveChanges();
             int uid = Convert.ToInt32(Session["id"]);
             dashboardView.Cart = db.cart_view.Where(k => k.id == uid).ToList();
-            dashboardView.Product = db.product.ToList();
+            dashboardView.Product = db.products.ToList();
             int total = 0;
             int total_products = 0;
             foreach (var x in db.cart_view.Where(k => k.id == uid))
