@@ -31,14 +31,40 @@ namespace PiedPiperIN.Controllers
         {
             PiedPiperINEntities db = new PiedPiperINEntities();
             DashboardViewModel dashboardView = new DashboardViewModel();
-            dashboardView.Cart = db.cart_view.Where(m => m.id == 1).ToList();
+            int uid = Convert.ToInt32(Session["id"]);
+            dashboardView.Cart = db.cart_view.Where(m => m.id == uid).ToList();
             float total_taxable = 0;
-            foreach(var x in dashboardView.Cart)
+
+            order order = new order();
+            order.User_ID = uid;
+            float total_price = 0;
+            Random rnd = new Random();
+            int orderno = rnd.Next(1000, 100000);
+            foreach (var x in dashboardView.Cart.Where(m=>m.id == uid))
             {
                 x.taxable_price = (float)(x.price) * (100+ x.category)/100;
                 total_taxable += (float) x.taxable_price;
+                order.Product_List += x.product_name+"("+x.Quantity+"), ";
+                total_price += (float)x.price;
+            }
+            order.order_number = orderno;
+            order.taxableprice = total_taxable;
+            order.totalprice = total_price;
+            db.orders.Add(order);
+            db.SaveChanges();
+            string name;
+            string Address;
+            string email;
+            foreach(var x in db.user_profile.Where(m => m.ID == uid))
+            {
+                name = x.Name;
+                Address = x.Address;
+                Session["name"] = name;
+                Session["Address"] = Address;
 
-             }
+            }
+            
+            Session["order_no"] = orderno;
             Session["taxable"] = total_taxable;
             return View(dashboardView);
         }

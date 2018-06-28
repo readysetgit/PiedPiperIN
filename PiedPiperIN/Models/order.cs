@@ -18,5 +18,8 @@ namespace PiedPiperIN.Models
         public byte[] timestamp { get; set; }
         public Nullable<int> User_ID { get; set; }
         public string Product_List { get; set; }
+        public Nullable<double> totalprice { get; set; }
+        public Nullable<double> taxableprice { get; set; }
+        public Nullable<int> order_number { get; set; }
     }
 }

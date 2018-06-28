@@ -26,6 +26,9 @@
           <Property Name="User ID" Type="int" />
           <Property Name="Product List" Type="varchar(max)" />
           <Property Name="timestamp" Type="timestamp" StoreGeneratedPattern="Computed" />
+          <Property Name="totalprice" Type="float" />
+          <Property Name="taxableprice" Type="float" />
+          <Property Name="order_number" Type="int" />
         </EntityType>
         <EntityType Name="products">
           <Key>
@@ -81,6 +84,9 @@
           <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="User_ID" Type="Int32" />
           <Property Name="Product_List" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="totalprice" Type="Double" />
+          <Property Name="taxableprice" Type="Double" />
+          <Property Name="order_number" Type="Int32" />
         </EntityType>
         <EntityType Name="user_profile">
           <Key>
@@ -134,6 +140,9 @@
           <EntitySetMapping Name="orders">
             <EntityTypeMapping TypeName="PiedPiperINModel.order">
               <MappingFragment StoreEntitySet="orders">
+                <ScalarProperty Name="order_number" ColumnName="order_number" />
+                <ScalarProperty Name="taxableprice" ColumnName="taxableprice" />
+                <ScalarProperty Name="totalprice" ColumnName="totalprice" />
                 <ScalarProperty Name="Product_List" ColumnName="Product List" />
                 <ScalarProperty Name="User_ID" ColumnName="User ID" />
                 <ScalarProperty Name="Order_ID" ColumnName="Order ID" />

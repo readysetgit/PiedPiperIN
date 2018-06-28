@@ -5,7 +5,14 @@
 }
 <center>
     <h1>Your Order has been successfully Placed </h1>
+    <h3>Order No:<span style="color:brown">@Session["order_no"]</span></h3>
+
+    
 <table class="table">
+    <tr>
+        <th>Name:<span style="color:brown">@Session["name"]</span></th>
+        <th>Address:<span style="color:brown">@Session["Address"]</span></th>
+    </tr>
     <tr>
         <th>
             Product ID
