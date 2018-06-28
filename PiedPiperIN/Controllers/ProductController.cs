@@ -11,7 +11,7 @@ namespace PiedPiperIN.Controllers
 {
     public class ProductController : Controller
     {   [HttpPost]
-        public ActionResult FillUploadBox(string pid, string pname, string pprice, string ppic)
+        public ActionResult FillUploadBox(string pid, string pname, string pprice, string ppic, string pcategory)
         {
             PiedPiperINEntities productdb = new PiedPiperINEntities();
             DashboardViewModel dash = new DashboardViewModel();
@@ -22,7 +22,9 @@ namespace PiedPiperIN.Controllers
             ViewBag.name = pname;
             ViewBag.id = pid;
             ViewBag.Price = pprice;
-            
+            ViewBag.category = pcategory;
+
+
 
             return View("UploadProduct",dash);
         }
@@ -51,9 +53,9 @@ namespace PiedPiperIN.Controllers
             DashboardViewModel dash = new DashboardViewModel();
             PiedPiperINEntities productdb = new PiedPiperINEntities();
             product productmodel = new product();
-            
 
-            if (newproduct.Product_ID == null)
+            var exists = productdb.products.Find(newproduct.Product_ID);
+            if (exists == null)
             {
                 if (file.ContentLength > 0)
                 {

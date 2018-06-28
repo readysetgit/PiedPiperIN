@@ -21,7 +21,7 @@
         <input class="form-control" type="text" value="@ViewBag.price" name="Product_Price" />
     </div>
     <div class="form-group">
-        <select class="form-control" name="Product_Category">
+        <select class="form-control" name="Product_Category" value="@ViewBag.category">
             <option>Food</option>
             <option>Electronics</option>
             <option>Other</option>
@@ -83,12 +83,13 @@
                     @using (Html.BeginForm("FillUploadBox", "Product", FormMethod.Post))
                     {
                         <input type="hidden" value="@Html.DisplayFor(modelitem => item.Product_ID)" name="pid" />
+                        <input type="hidden" value="@Html.DisplayFor(modelitem => item.Product_category)" name="pcategory" />
                         <input type="hidden" value="@Html.DisplayFor(modelitem => item.Product_Name)" name="pname" />
                         <input type="hidden" value="@Html.DisplayFor(modelitem => item.Product_Price)" name="pprice" />
                         <input type="submit" value="edit" />
                     }
 
-            </tr>
+</tr>
 
             }
         </table>
