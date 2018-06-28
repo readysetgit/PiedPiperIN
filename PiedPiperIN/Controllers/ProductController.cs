@@ -113,6 +113,24 @@ namespace PiedPiperIN.Controllers
 
         }
 
+        [HttpPost]
+        public ActionResult DeleteProduct(string pid)
+        {
+            PiedPiperINEntities productdb = new PiedPiperINEntities();
+            DashboardViewModel dash = new DashboardViewModel();
+            int pro_id = Convert.ToInt32(pid);
+            product productdelete = new product();
+            productdelete = productdb.products.FirstOrDefault(m => m.Product_ID == pro_id);
+            if(productdelete != null) {
+                productdb.products.Remove(productdelete);
+                productdb.SaveChanges();
+            }
+
+
+            dash.Product = productdb.products.ToList();
+            dash.Cart = productdb.cart_view.ToList();
+            return View("UploadProduct", dash);
+        }
         //[HttpPost]
         //public ActionResult NewProduct(product newproduct)
         //{
