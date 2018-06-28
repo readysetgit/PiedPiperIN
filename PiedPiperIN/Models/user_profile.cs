@@ -21,6 +21,6 @@ namespace PiedPiperIN.Models
         public string Profile_Pic { get; set; }
         public Nullable<int> Role { get; set; }
         public string Address { get; set; }
-        public byte[] timestamp { get; set; }
+        public byte[] timestamp { get; set; }//
     }
 }
