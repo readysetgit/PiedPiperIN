@@ -15,8 +15,8 @@ namespace PiedPiperIN.Models
     public partial class order
     {
         public int Order_ID { get; set; }
-        public int ID { get; set; }
-        public int Product_ID { get; set; }
         public byte[] timestamp { get; set; }
+        public Nullable<int> User_ID { get; set; }
+        public string Product_List { get; set; }
     }
 }

@@ -23,8 +23,8 @@
             <PropertyRef Name="Order ID" />
           </Key>
           <Property Name="Order ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ID" Type="int" Nullable="false" />
-          <Property Name="Product ID" Type="int" Nullable="false" />
+          <Property Name="User ID" Type="int" />
+          <Property Name="Product List" Type="varchar(max)" />
           <Property Name="timestamp" Type="timestamp" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="products">
@@ -78,9 +78,9 @@
             <PropertyRef Name="Order_ID" />
           </Key>
           <Property Name="Order_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="Product_ID" Type="Int32" Nullable="false" />
           <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="User_ID" Type="Int32" />
+          <Property Name="Product_List" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="user_profile">
           <Key>
@@ -134,9 +134,9 @@
           <EntitySetMapping Name="orders">
             <EntityTypeMapping TypeName="PiedPiperINModel.order">
               <MappingFragment StoreEntitySet="orders">
+                <ScalarProperty Name="Product_List" ColumnName="Product List" />
+                <ScalarProperty Name="User_ID" ColumnName="User ID" />
                 <ScalarProperty Name="Order_ID" ColumnName="Order ID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Product_ID" ColumnName="Product ID" />
                 <ScalarProperty Name="timestamp" ColumnName="timestamp" />
               </MappingFragment>
             </EntityTypeMapping>

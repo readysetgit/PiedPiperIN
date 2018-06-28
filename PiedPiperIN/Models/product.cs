@@ -14,7 +14,7 @@ namespace PiedPiperIN.Models
     
     public partial class product
     {
-        public Nullable<int> Product_ID { get; set; }
+        public int Product_ID { get; set; }
         public string Product_Name { get; set; }
         public string Product_Pic { get; set; }
         public Nullable<int> Product_Price { get; set; }

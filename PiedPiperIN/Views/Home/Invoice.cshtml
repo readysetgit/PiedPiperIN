@@ -19,6 +19,9 @@
         <th>
             Price
         </th>
+        <th>
+            Taxable Price
+        </th>
 
     </tr>
 
@@ -41,7 +44,10 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => (item.taxable_price))
+                
+                (@Html.DisplayFor(modelItem => (item.category))%)
 
+                
             </td>
 
 
@@ -52,7 +58,8 @@
             <td></td>
             <td><h4>Total Quantities:<span style="color:brown">@Session["qty"]</span> </h4></td>
             <td><h4>Total Price: <span style="color:brown">@Session["total"]</span></h4></td>
-            <td><h4>Total GST <span style="color:brown">@Session["total"]*(0.88)</span></h4></td>
+            <td><h4>Total Taxable Price: <span style="color:brown">@Session["taxable"]</span></h4></td>
+
         </tr>
     
 </table>
