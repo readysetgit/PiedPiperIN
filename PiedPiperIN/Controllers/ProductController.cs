@@ -89,6 +89,7 @@ namespace PiedPiperIN.Controllers
                     //productmodel.FileName = _FileName;  //This is an HTTPPostedFileBase, check if code runs without this
                     productmodel.Product_Name = newproduct.Product_Name;
                     productmodel.Product_Price = newproduct.Product_Price;
+                    productmodel.Product_category = newproduct.Product_category;
                     file.SaveAs(_path);
                     productdb.SaveChanges();
                 }
