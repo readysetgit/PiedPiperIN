@@ -24,8 +24,6 @@ namespace PiedPiperIN.Controllers
             ViewBag.Price = pprice;
             ViewBag.category = pcategory;
 
-
-
             return View("UploadProduct",dash);
         }
 
@@ -48,7 +46,7 @@ namespace PiedPiperIN.Controllers
 
 
         [HttpPost]
-        public ActionResult NewProduct( product newproduct, HttpPostedFileBase file)
+        public ActionResult NewProduct(product newproduct, HttpPostedFileBase file)
         {
             DashboardViewModel dash = new DashboardViewModel();
             PiedPiperINEntities productdb = new PiedPiperINEntities();
