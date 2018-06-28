@@ -54,7 +54,7 @@ namespace PiedPiperIN.Controllers
 
             var exists = productdb.products.Find(newproduct.Product_ID);
             if (exists == null)
-            {
+            { 
                 if (file.ContentLength > 0)
                 {
                     string _FileName = Path.GetFileName(file.FileName);
@@ -68,6 +68,7 @@ namespace PiedPiperIN.Controllers
                     file.SaveAs(_path);
 
                 }
+                
 
 
 
