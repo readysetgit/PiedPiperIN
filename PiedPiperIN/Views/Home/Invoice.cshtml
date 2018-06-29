@@ -3,83 +3,84 @@
 @{
     ViewBag.Title = "UserDashBoard";
 }
-
-<div class="row">
-         <div style="border:1px solid #808080; margin-top:2px; box-shadow:#000000 1px 1px;">
-             <div class="col-sm-12">
-                 <div style="background-color:#7ac6f8">
-            <center>
-            <h1>Your Order has been successfully Placed </h1>
-            <h3>Order No:<span style="color:brown">@Session["order_no"]</span></h3>
-              </center>
-               </div>
-            <table class="table">
-                <tr>
-                    <th>Name: <span style="color:brown">@Session["name"]</span></th>
-                    <th>Address: <span style="color:brown">@Session["Address"]</span></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                <tr>
-                    <th>
-                        Product ID
-                    </th>
-                    <th>
-                        Product Name
-                    </th>
-                    <th>
-                        Quantity
-                    </th>
-                    <th>
-                        Price
-                    </th>
-                    <th>
-                        Taxable Price
-                    </th>
-
-                </tr>
-
-                @foreach (var item in Model.Cart)
-                {
-
+<body style="background-color:#fbf9f9">
+    <div class="row">
+        <div style="border:1px solid #808080; margin-top:2px; box-shadow:#000000 1px 1px;">
+            <div class="col-sm-12">
+                <div >
+                    <center>
+                        <h1>Your Order has been successfully Placed </h1>
+                        <h3>Order No:<span style="color:brown">@Session["order_no"]</span></h3>
+                    </center>
+                </div>
+                <table class="table">
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.prdouct_id)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.product_name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Quantity)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => (item.price))
-
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => (item.taxable_price))
-
-                            (@Html.DisplayFor(modelItem => (item.category))%)
-
-
-                        </td>
-
+                        <th>Name: <span style="color:brown">@Session["name"]</span></th>
+                        <th>Address: <span style="color:brown">@Session["Address"]</span></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th>
+                            Product ID
+                        </th>
+                        <th>
+                            Product Name
+                        </th>
+                        <th>
+                            Quantity
+                        </th>
+                        <th>
+                            Price
+                        </th>
+                        <th>
+                            Taxable Price
+                        </th>
 
                     </tr>
-                }
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td><h5>Total Quantities:<span style="color:brown;">@Session["qty"]</span> </h5></td>
-                    <td><h5>Total Price: <span style="color:brown;">@Session["total"]</span></h5></td>
-                    <td><h5>Total Taxable Price: <span style="color:brown;">@Session["taxable"]</span></h5></td>
 
-                </tr>
-                <tr><td colspan="5">This material has been prepared for informational purposes only, and is not intended to provide, and should not be relied on for, tax, legal or accounting advice. You should consult your own tax, legal and accounting advisors before engaging in any transaction.</td></tr>
-            </table>
-</div>
+                    @foreach (var item in Model.Cart)
+                    {
+
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.prdouct_id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.product_name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Quantity)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => (item.price))
+
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => (item.taxable_price))
+
+                                (@Html.DisplayFor(modelItem => (item.category))%)
+
+
+                            </td>
+
+
+                        </tr>
+                    }
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td><h5>Total Quantities:<span style="color:brown;">@Session["qty"]</span> </h5></td>
+                        <td><h5>Total Price: <span style="color:brown;">@Session["total"]</span></h5></td>
+                        <td><h5>Total Taxable Price: <span style="color:brown;">@Session["taxable"]</span></h5></td>
+
+                    </tr>
+
+                </table>
+            </div>
         </div>
-    
-    
-</div>
+
+
+    </div>
+    </body>
