@@ -5,12 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
 using System.Web.UI;
 using PiedPiperIN.Models;
 namespace PiedPiperIN.Controllers
 {
-    [Authorize]
     public class HomeController : Controller
     {
         public object Email { get; private set; }
@@ -20,9 +18,7 @@ namespace PiedPiperIN.Controllers
         //this is my second commit
         //This is Fahad committing directly into the master branch
         //Kitkat commit
-
-        [AllowAnonymous]
-        public ActionResult Login()
+        public ActionResult Index()
         {
             return View();
         }
@@ -31,7 +27,6 @@ namespace PiedPiperIN.Controllers
             return View();
         }
         [HttpGet]
-        [Authorize]
         public ActionResult Invoice()
         {
             PiedPiperINEntities db = new PiedPiperINEntities();
@@ -68,10 +63,6 @@ namespace PiedPiperIN.Controllers
                 Session["Address"] = Address;
 
             }
-            foreach(var x in db.orders.Where(m=>m.Order_ID == uid))
-            {
-
-            }
             
             Session["order_no"] = orderno;
             Session["taxable"] = total_taxable;
@@ -80,28 +71,29 @@ namespace PiedPiperIN.Controllers
         //Firstcommit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(user_profile objUser, string ReturnUrl = "")
+        public ActionResult Index(user_profile objUser)
         {
+            Session["htmlStr"] = "<table>";
 
-            using (PiedPiperINEntities db = new PiedPiperINEntities())
+            PiedPiperINEntities db = new PiedPiperINEntities();
+
+            var obj = db.user_profile.Where(a => a.Email.Equals(objUser.Email) && a.Password.Equals(objUser.Password)).FirstOrDefault();
+
+            if (obj != null)
             {
-                var user = db.user_profile.Where(a => a.Email.Equals(objUser.Email) && a.Password.Equals(objUser.Password)).FirstOrDefault();
-                if (user != null)
-                {
-                    FormsAuthentication.SetAuthCookie(user.Email, objUser.RememberMe);
-                    if (Url.IsLocalUrl(ReturnUrl))
-                    {
-                        return Redirect(ReturnUrl);
-                    }
-                    else
-                    {
-                        return RedirectToAction("UserDashBoard", "Home");
-                    }
-                }
-            }
-            ModelState.Remove("Password");
-            return View();
+                Session["id"] = obj.ID.ToString();
 
+                return RedirectToAction("UserDashBoard");
+
+            }
+
+            else
+            {
+                Session["wrong"] = "true";
+                return RedirectToAction("Index");
+            }
+
+            
 
 
 
@@ -112,7 +104,6 @@ namespace PiedPiperIN.Controllers
         /// <returns></returns>
         ///
         [HttpGet]
-        [Authorize]
         public ActionResult UserDashBoard()
         {
             PiedPiperINEntities db = new PiedPiperINEntities();
@@ -138,11 +129,9 @@ namespace PiedPiperIN.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        
         public ActionResult Create_user([Bind(Include = "Name,Email,Password,Address")] user_profile user_profile)
         {
             PiedPiperINEntities db = new PiedPiperINEntities();
-            user_profile.Role = "user";
             if (ModelState.IsValid)
             {
                 db.user_profile.Add(user_profile);
@@ -155,12 +144,11 @@ namespace PiedPiperIN.Controllers
         }
         public ActionResult Logout()
         {
-            FormsAuthentication.SignOut();
-            return RedirectToAction("Login");
+            Session["Email"] = null;
+            return RedirectToAction("Index");
 
         }
         [HttpPost]
-        [Authorize]
         public ActionResult addtocart(string pid, string pname, string qty, string price, string category)
         {
             // PiedPiperINEntities db = new PiedPiperINEntities();
@@ -244,7 +232,7 @@ namespace PiedPiperIN.Controllers
         //}
 
         [HttpPost]
-        [Authorize]
+        
             public ActionResult updateCart(string pid, string pname, string qty, string price)
         {
             PiedPiperINEntities db = new PiedPiperINEntities();

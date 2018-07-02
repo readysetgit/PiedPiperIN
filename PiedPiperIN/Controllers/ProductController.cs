@@ -9,7 +9,6 @@ using PiedPiperIN.Models;
 
 namespace PiedPiperIN.Controllers
 {
-    [Authorize]
     public class ProductController : Controller
     {   [HttpPost]
         public ActionResult FillUploadBox(string pid, string pcategory, string pname, string pprice, string ppic )
@@ -32,7 +31,6 @@ namespace PiedPiperIN.Controllers
 
 
         [HttpGet]
-        [Authorize(Users = "admin")]
         public ActionResult UploadProduct()
         {
             PiedPiperINEntities productdb = new PiedPiperINEntities();
