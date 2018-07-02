@@ -5,10 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using System.Web.UI;
 using PiedPiperIN.Models;
 namespace PiedPiperIN.Controllers
 {
+    //
+  [Authorize]
     public class HomeController : Controller
     {
         public object Email { get; private set; }
@@ -18,7 +21,9 @@ namespace PiedPiperIN.Controllers
         //this is my second commit
         //This is Fahad committing directly into the master branch
         //Kitkat commit
-        public ActionResult Index()
+
+        [AllowAnonymous]
+        public ActionResult Login()
         {
             return View();
         }
@@ -27,6 +32,7 @@ namespace PiedPiperIN.Controllers
             return View();
         }
         [HttpGet]
+        [Authorize]
         public ActionResult Invoice()
         {
             PiedPiperINEntities db = new PiedPiperINEntities();
@@ -40,11 +46,11 @@ namespace PiedPiperIN.Controllers
             float total_price = 0;
             Random rnd = new Random();
             int orderno = rnd.Next(1000, 100000);
-            foreach (var x in dashboardView.Cart.Where(m=>m.id == uid))
+            foreach (var x in dashboardView.Cart.Where(m => m.id == uid))
             {
-                x.taxable_price = (float)(x.price) * (100+ x.category)/100;
-                total_taxable += (float) x.taxable_price;
-                order.Product_List += x.product_name+"("+x.Quantity+"), ";
+                x.taxable_price = (float)(x.price) * (100 + x.category) / 100;
+                total_taxable += (float)x.taxable_price;
+                order.Product_List += x.product_name + "(" + x.Quantity + "), ";
                 total_price += (float)x.price;
             }
             order.order_number = orderno;
@@ -55,7 +61,7 @@ namespace PiedPiperIN.Controllers
             string name;
             string Address;
             string email;
-            foreach(var x in db.user_profile.Where(m => m.ID == uid))
+            foreach (var x in db.user_profile.Where(m => m.ID == uid))
             {
                 name = x.Name;
                 Address = x.Address;
@@ -63,7 +69,11 @@ namespace PiedPiperIN.Controllers
                 Session["Address"] = Address;
 
             }
-            
+            foreach (var x in db.orders.Where(m => m.Order_ID == uid))
+            {
+
+            }
+
             Session["order_no"] = orderno;
             Session["taxable"] = total_taxable;
             return View(dashboardView);
@@ -71,29 +81,29 @@ namespace PiedPiperIN.Controllers
         //Firstcommit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(user_profile objUser)
+        [AllowAnonymous]
+        public ActionResult Login(user_profile objUser, string ReturnUrl = "")
         {
-            Session["htmlStr"] = "<table>";
 
-            PiedPiperINEntities db = new PiedPiperINEntities();
-
-            var obj = db.user_profile.Where(a => a.Email.Equals(objUser.Email) && a.Password.Equals(objUser.Password)).FirstOrDefault();
-
-            if (obj != null)
+            using (PiedPiperINEntities db = new PiedPiperINEntities())
             {
-                Session["id"] = obj.ID.ToString();
-
-                return RedirectToAction("UserDashBoard");
-
+                var user = db.user_profile.Where(a => a.Email.Equals(objUser.Email) && a.Password.Equals(objUser.Password)).FirstOrDefault();
+                if (user != null)
+                {
+                    FormsAuthentication.SetAuthCookie(user.Email, objUser.RememberMe);
+                    if (Url.IsLocalUrl(ReturnUrl))
+                    {
+                        return Redirect(ReturnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("UserDashBoard", "Home");
+                    }
+                }
             }
+            ModelState.Remove("Password");
+            return View();
 
-            else
-            {
-                Session["wrong"] = "true";
-                return RedirectToAction("Index");
-            }
-
-            
 
 
 
@@ -104,6 +114,7 @@ namespace PiedPiperIN.Controllers
         /// <returns></returns>
         ///
         [HttpGet]
+        [Authorize]
         public ActionResult UserDashBoard()
         {
             PiedPiperINEntities db = new PiedPiperINEntities();
@@ -129,9 +140,11 @@ namespace PiedPiperIN.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+
         public ActionResult Create_user([Bind(Include = "Name,Email,Password,Address")] user_profile user_profile)
         {
             PiedPiperINEntities db = new PiedPiperINEntities();
+            user_profile.Role = "user";
             if (ModelState.IsValid)
             {
                 db.user_profile.Add(user_profile);
@@ -144,15 +157,15 @@ namespace PiedPiperIN.Controllers
         }
         public ActionResult Logout()
         {
-            Session["Email"] = null;
-            return RedirectToAction("Index");
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Login");
 
         }
         [HttpPost]
+        [Authorize]
         public ActionResult addtocart(string pid, string pname, string qty, string price, string category)
         {
             // PiedPiperINEntities db = new PiedPiperINEntities();
-
 
             using (PiedPiperINEntities db = new PiedPiperINEntities())
             {
@@ -166,7 +179,7 @@ namespace PiedPiperIN.Controllers
                 cart.price = int.Parse(price) * int.Parse(qty);
                 cart.category = Convert.ToInt32(category);
 
-              
+
                 var obj = db.cart_view.Where(m => m.prdouct_id == pro_id && m.id == usid).FirstOrDefault();
                 if (obj == null)
                 {
@@ -208,7 +221,7 @@ namespace PiedPiperIN.Controllers
             Session["total"] = total;
             Session["qty"] = total_products;
             total = 0;
-             total_products = 0;
+            total_products = 0;
             return View("UserDashBoard", dashboardView);
 
         }
@@ -218,7 +231,7 @@ namespace PiedPiperIN.Controllers
         //    PiedPiperINEntities db = new PiedPiperINEntities();
         //    DashboardViewModel dashboardView = new DashboardViewModel();
         //    int uid = Convert.ToInt32(Session["id"]);
-        
+
         //    dashboardView.Cart = db.cart_view.Where(k => k.id == uid).ToList();
         //    dashboardView.Product = db.product.ToList();
         //    int total = 0;
@@ -232,8 +245,8 @@ namespace PiedPiperIN.Controllers
         //}
 
         [HttpPost]
-        
-            public ActionResult updateCart(string pid, string pname, string qty, string price)
+        [Authorize]
+        public ActionResult updateCart(string pid, string pname, string qty, string price)
         {
             PiedPiperINEntities db = new PiedPiperINEntities();
             DashboardViewModel dashboardView = new DashboardViewModel();

@@ -9,9 +9,11 @@ using PiedPiperIN.Models;
 
 namespace PiedPiperIN.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
-    {   [HttpPost]
-        public ActionResult FillUploadBox(string pid, string pcategory, string pname, string pprice, string ppic )
+    {
+        [HttpPost]
+        public ActionResult FillUploadBox(string pid, string pcategory, string pname, string pprice, string ppic)
         {
             PiedPiperINEntities productdb = new PiedPiperINEntities();
             DashboardViewModel dash = new DashboardViewModel();
@@ -24,13 +26,14 @@ namespace PiedPiperIN.Controllers
             ViewBag.Price = pprice;
             ViewBag.category = pcategory;
 
-            return View("UploadProduct",dash);
+            return View("UploadProduct", dash);
         }
 
 
 
 
         [HttpGet]
+        [Authorize(Users = "admin")]
         public ActionResult UploadProduct()
         {
             PiedPiperINEntities productdb = new PiedPiperINEntities();
@@ -40,8 +43,8 @@ namespace PiedPiperIN.Controllers
             dash.Cart = productdb.cart_view.ToList();
 
             ViewBag.Head = "Upload Product";
-                return View(dash);
-            
+            return View(dash);
+
         }
 
 
@@ -54,7 +57,7 @@ namespace PiedPiperIN.Controllers
 
             var exists = productdb.products.Find(newproduct.Product_ID);
             if (exists == null)
-            { 
+            {
                 if (file.ContentLength > 0)
                 {
                     string _FileName = Path.GetFileName(file.FileName);
@@ -63,12 +66,12 @@ namespace PiedPiperIN.Controllers
                     //productmodel.FileName = _FileName;  //This is an HTTPPostedFileBase, check if code runs without this
                     productmodel.Product_Name = newproduct.Product_Name;
                     productmodel.Product_Price = newproduct.Product_Price;
-                    productmodel.Product_category = (int) newproduct.Product_category;
-                    
+                    productmodel.Product_category = (int)newproduct.Product_category;
+
                     file.SaveAs(_path);
 
                 }
-                
+
 
 
 
@@ -92,25 +95,25 @@ namespace PiedPiperIN.Controllers
                     file.SaveAs(_path);
                     productdb.SaveChanges();
                 }
-                
-                
-                
-                
+
+
+
+
                 //var existingproduct = productdb.product.Find(newproduct.Product_ID);
                 // productdb.Entry(existingproduct).CurrentValues.SetValues(productmodel);
-                 
+
 
             }
             ViewBag.Message = "File Uploaded Successfully!!";
-                dash.Product = productdb.products.ToList();
-                dash.Cart = productdb.cart_view.ToList();
+            dash.Product = productdb.products.ToList();
+            dash.Cart = productdb.cart_view.ToList();
             ViewBag.name = "Product Name";
             ViewBag.id = null;
             ViewBag.Price = "Product Price";
             return View("UploadProduct", dash);
 
 
-            
+
 
         }
 
@@ -122,7 +125,8 @@ namespace PiedPiperIN.Controllers
             int pro_id = Convert.ToInt32(pid);
             product productdelete = new product();
             productdelete = productdb.products.FirstOrDefault(m => m.Product_ID == pro_id);
-            if(productdelete != null) {
+            if (productdelete != null)
+            {
                 productdb.products.Remove(productdelete);
                 productdb.SaveChanges();
             }
@@ -139,7 +143,7 @@ namespace PiedPiperIN.Controllers
         //        DashboardViewModel dash = new DashboardViewModel();
         //        PiedPiperINEntities productdb = new PiedPiperINEntities();
         //        product productmodel = new product();
-                 
+
         //        var existingproduct = productdb.product.Find(newproduct.Product_ID);
         //            productmodel.Product_Name = newproduct.Product_Name;
         //            productmodel.Product_Price = newproduct.Product_Price;
@@ -193,4 +197,4 @@ namespace PiedPiperIN.Controllers
         //    return view();
         //}
     }
- }
+}

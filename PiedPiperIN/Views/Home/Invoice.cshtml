@@ -15,7 +15,7 @@
                 </div>
                 <table class="table">
                     <tr>
-                        <th>Name: <span style="color:brown">@Session["name"]</span></th>
+                        <th>Name: <span style="color:brown"> @HttpContext.User.Identity.Name</span></th>
                         <th>Address: <span style="color:brown">@Session["Address"]</span></th>
                         <th></th>
                         <th></th>

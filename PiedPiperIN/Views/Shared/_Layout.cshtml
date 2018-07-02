@@ -17,14 +17,14 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("PiedPiper IN", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("PiedPiper IN", "Login", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <ul style="display:inline-block"> @Html.ActionLink("Dashboard", "UserDashBoard", "Home", new { area = "" }, new { @class = "navbar-brand" })</ul>
                     <ul style="display:inline-block"> @Html.ActionLink("Upload Product", "UploadProduct", "Product", new { area = "" }, new { @class = "navbar-brand" })</ul>
                     <ul style="display:inline-block"> @Html.ActionLink("Register", "Create", "Home", new { area = "" }, new { @class = "navbar-brand" })</ul>
-
+                    <ul style="display:inline-block"> @Html.ActionLink("Logout", "Logout", "Home", new { area = "" }, new { @class = "navbar-brand" })</ul>
                 </ul>
             </div>
         </div>

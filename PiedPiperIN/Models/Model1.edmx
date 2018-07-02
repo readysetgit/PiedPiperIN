@@ -49,7 +49,7 @@
           <Property Name="Email" Type="varchar" MaxLength="50" />
           <Property Name="Password" Type="varchar" MaxLength="50" />
           <Property Name="Profile_Pic" Type="varchar(max)" />
-          <Property Name="Role" Type="int" />
+          <Property Name="Role" Type="varchar" MaxLength="50" />
           <Property Name="Address" Type="varchar(max)" />
           <Property Name="timestamp" Type="timestamp" StoreGeneratedPattern="Computed" />
         </EntityType>
@@ -88,19 +88,12 @@
           <Property Name="taxableprice" Type="Double" />
           <Property Name="order_number" Type="Int32" />
         </EntityType>
-        <EntityType Name="user_profile">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Profile_Pic" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Role" Type="Int32" />
-          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
-        </EntityType>
+        <EntityContainer Name="PiedPiperINEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="cart_view" EntityType="Self.cart_view" />
+          <EntitySet Name="orders" EntityType="Self.order" />
+          <EntitySet Name="products" EntityType="PiedPiperINModel.product" />
+          <EntitySet Name="user_profile" EntityType="PiedPiperINModel.user_profile" />
+        </EntityContainer>
         <EntityType Name="product">
           <Key>
             <PropertyRef Name="Product_ID" />
@@ -111,12 +104,19 @@
           <Property Name="Product_Price" Type="Int32" />
           <Property Name="Product_category" Type="Int32" />
         </EntityType>
-        <EntityContainer Name="PiedPiperINEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="cart_view" EntityType="Self.cart_view" />
-          <EntitySet Name="orders" EntityType="Self.order" />
-          <EntitySet Name="user_profile" EntityType="Self.user_profile" />
-          <EntitySet Name="products" EntityType="Self.product" />
-        </EntityContainer>
+        <EntityType Name="user_profile">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Profile_Pic" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -150,28 +150,28 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="user_profile">
-            <EntityTypeMapping TypeName="PiedPiperINModel.user_profile">
-              <MappingFragment StoreEntitySet="user_profile">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Profile_Pic" ColumnName="Profile_Pic" />
-                <ScalarProperty Name="Role" ColumnName="Role" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="products">
             <EntityTypeMapping TypeName="PiedPiperINModel.product">
               <MappingFragment StoreEntitySet="products">
                 <ScalarProperty Name="Product_category" ColumnName="Product_category" />
                 <ScalarProperty Name="Product_Price" ColumnName="Product_Price" />
-                <ScalarProperty Name="Product_ID" ColumnName="Product ID" />
-                <ScalarProperty Name="Product_Name" ColumnName="Product_Name" />
                 <ScalarProperty Name="Product_Pic" ColumnName="Product_Pic" />
+                <ScalarProperty Name="Product_Name" ColumnName="Product_Name" />
+                <ScalarProperty Name="Product_ID" ColumnName="Product ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_profile">
+            <EntityTypeMapping TypeName="PiedPiperINModel.user_profile">
+              <MappingFragment StoreEntitySet="user_profile">
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Profile_Pic" ColumnName="Profile_Pic" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
