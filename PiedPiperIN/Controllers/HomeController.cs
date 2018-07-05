@@ -334,6 +334,11 @@ namespace PiedPiperIN.Controllers
                 if (flag == 0)
                 {
                     Session["coupon_Applied"] = "false";
+                    Session["discount_value"] = "0";
+                }
+                else
+                {
+                    Session["discount_value"] = float.Parse(discount_value);
                 }
                 dashboardView.Cart = db.cart_view.Where(k => k.id == usid).ToList();
                 dashboardView.Product = db.products.ToList();

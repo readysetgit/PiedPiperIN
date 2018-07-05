@@ -97,39 +97,15 @@
                         <td><h5>Total Taxable Price: <span style="color:brown;">@Session["taxable"]</span></h5></td>
 
                     </tr>
-
+                    <tr>
+                        @if (Session["discount_value"] != "")
+                        {
+                            <span style="color:orangered; font-size:22px">@Session["discount_value"] % Discount Applied!</span>
+                        }
+                </tr>
                 </table>
 
             </div>
-            @using (Html.BeginForm())
-            {
-                <div style="margin-left: 15%; margin-right: 15%; width: 100%">
-                    <table width="70%" style="color: lavender; text-align: center; border: solid;">
-                        <tr>
-                            <td>
-
-                                <input id="btngetbyid" type="button" onclick="GetCarById();" value="Get_BYID" />
-                                <input id="btnget" type="button" onclick="AllcarDetails();" value="Get_Data" />
-
-                            </td>
-
-                        </tr>
-                    </table>
-                    <table width="70%" style="color: black; border: solid; text-align:center; " id="Cartbl">
-
-                        <tr>
-                            <td><b>CarName</b></td>
-                            <td><b>CarModel</b></td>
-                            <td><b>CarPrice</b></td>
-                            <td><b>CarColor</b></td>
-
-
-                        </tr>
-
-                    </table>
-
-                </div>
-            }
 
 
             <span>Go to Dashboard</span>

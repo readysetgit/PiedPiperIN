@@ -125,14 +125,17 @@
                             </th>
                             <th>
                                 Price
+                                </th>
+                            <th>
 
+                            </th>
                         </tr>
 
                         @foreach (var item in Model.Cart)
                         {
 
                             <tr>
-                                <td>
+                                <td style="width:50px;">
                                     @Html.DisplayFor(modelItem => item.prdouct_id)
                                 </td>
                                 <td>
@@ -152,7 +155,7 @@
                                         <input type="hidden" value="@Html.DisplayFor(modelItem => item.product_name)" name="pname" />
                                         <input type="hidden" value="@Html.DisplayFor(modelItem => item.price)" name="price" />
 
-                                        <input type="submit" value="Delete">
+                                        <input type="submit" value="Delete" style="width:50px;">
 
                                     }
 
