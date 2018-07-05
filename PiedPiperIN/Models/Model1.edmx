@@ -14,9 +14,10 @@
           <Property Name="product name" Type="varchar" MaxLength="50" />
           <Property Name="session_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Quantity" Type="int" />
-          <Property Name="price" Type="int" />
+          <Property Name="price" Type="float" />
           <Property Name="taxable_price" Type="float" />
           <Property Name="category" Type="int" />
+          <Property Name="coupon_applied" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="orders">
           <Key>
@@ -63,37 +64,24 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PiedPiperINModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="cart_view">
-          <Key>
-            <PropertyRef Name="session_id" />
-          </Key>
-          <Property Name="id" Type="Int32" />
-          <Property Name="prdouct_id" Type="Int32" />
-          <Property Name="product_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="session_id" Type="Int32" Nullable="false" />
-          <Property Name="Quantity" Type="Int32" />
-          <Property Name="price" Type="Int32" />
-          <Property Name="taxable_price" Type="Double" />
-          <Property Name="category" Type="Int32" />
-        </EntityType>
+        <EntityContainer Name="PiedPiperINEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="orders" EntityType="PiedPiperINModel.order" />
+          <EntitySet Name="products" EntityType="PiedPiperINModel.product" />
+          <EntitySet Name="user_profile" EntityType="PiedPiperINModel.user_profile" />
+          <EntitySet Name="cart_view" EntityType="PiedPiperINModel.cart_view" />
+        </EntityContainer>
         <EntityType Name="order">
           <Key>
             <PropertyRef Name="Order_ID" />
           </Key>
           <Property Name="Order_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="User_ID" Type="Int32" />
           <Property Name="Product_List" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="totalprice" Type="Double" />
           <Property Name="taxableprice" Type="Double" />
           <Property Name="order_number" Type="Int32" />
         </EntityType>
-        <EntityContainer Name="PiedPiperINEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="cart_view" EntityType="Self.cart_view" />
-          <EntitySet Name="orders" EntityType="Self.order" />
-          <EntitySet Name="products" EntityType="PiedPiperINModel.product" />
-          <EntitySet Name="user_profile" EntityType="PiedPiperINModel.user_profile" />
-        </EntityContainer>
         <EntityType Name="product">
           <Key>
             <PropertyRef Name="Product_ID" />
@@ -117,36 +105,36 @@
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="timestamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
+        <EntityType Name="cart_view">
+          <Key>
+            <PropertyRef Name="session_id" />
+          </Key>
+          <Property Name="id" Type="Int32" />
+          <Property Name="prdouct_id" Type="Int32" />
+          <Property Name="product_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="session_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="price" Type="Double" />
+          <Property Name="taxable_price" Type="Double" />
+          <Property Name="category" Type="Int32" />
+          <Property Name="coupon_applied" Type="Int32" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="PiedPiperINModelStoreContainer" CdmEntityContainer="PiedPiperINEntities">
-          <EntitySetMapping Name="cart_view">
-            <EntityTypeMapping TypeName="PiedPiperINModel.cart_view">
-              <MappingFragment StoreEntitySet="cart_view">
-                <ScalarProperty Name="category" ColumnName="category" />
-                <ScalarProperty Name="taxable_price" ColumnName="taxable_price" />
-                <ScalarProperty Name="price" ColumnName="price" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="prdouct_id" ColumnName="prdouct id" />
-                <ScalarProperty Name="product_name" ColumnName="product name" />
-                <ScalarProperty Name="session_id" ColumnName="session_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="orders">
             <EntityTypeMapping TypeName="PiedPiperINModel.order">
               <MappingFragment StoreEntitySet="orders">
                 <ScalarProperty Name="order_number" ColumnName="order_number" />
                 <ScalarProperty Name="taxableprice" ColumnName="taxableprice" />
                 <ScalarProperty Name="totalprice" ColumnName="totalprice" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
                 <ScalarProperty Name="Product_List" ColumnName="Product List" />
                 <ScalarProperty Name="User_ID" ColumnName="User ID" />
                 <ScalarProperty Name="Order_ID" ColumnName="Order ID" />
-                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -172,6 +160,21 @@
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cart_view">
+            <EntityTypeMapping TypeName="PiedPiperINModel.cart_view">
+              <MappingFragment StoreEntitySet="cart_view">
+                <ScalarProperty Name="coupon_applied" ColumnName="coupon_applied" />
+                <ScalarProperty Name="category" ColumnName="category" />
+                <ScalarProperty Name="taxable_price" ColumnName="taxable_price" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="session_id" ColumnName="session_id" />
+                <ScalarProperty Name="product_name" ColumnName="product name" />
+                <ScalarProperty Name="prdouct_id" ColumnName="prdouct id" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

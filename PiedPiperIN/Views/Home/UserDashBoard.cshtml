@@ -1,19 +1,53 @@
 ﻿@model PiedPiperIN.Models.DashboardViewModel
 
-@{
-    ViewBag.Title = "UserDashBoard";
-}
+
 <!DOCTYPE HTML>
 <html>
 
+<script lang="ja" type="text/javascript">
+
+    function GetCarById()   //Mine 
+    {
+        if (document.getElementById("discount_coupon").value != "")
+        {
+            $.ajax({
+                url: 'http://localhost:32359/api/CarDetails/' + document.getElementById("discount_coupon").value,
+                type: 'GET',
+                dataType: "json",
+                success: function (data) {
+
+                    var datavalue = data;
+                    var myJsonObject = datavalue;
+
+                    var DiscountName = myJsonObject[0].DiscountName;
+                    var DiscountValue = myJsonObject[0].DiscountValue;
+
+                    document.getElementById("delete_button").style.visibility = "visible";
+                    document.getElementById("validate").style.visibility = "visible";
+                    document.getElementById("submit").text = "Validate Coupon";
+                    document.getElementById("discount_name").value = DiscountName;
+                    document.getElementById("discount_value").value = DiscountValue;
+
+                },
+                error: function (xhr) {
+                    alert("No coupon Applied!");
+                }
+            });
+        }
+    }
+    function delete_()
+    {
+        document.getElementById("delete_button").style.visibility = "hidden";
+    }
+    </script>
 <body>
     <div class="row">
-        <h2>UserDashBoard</h2>
 
-        <p>
-            @Html.ActionLink("Upload Product", "UploadProduct", "Product")
-        </p>
+
+
         <div class="col-sm-7">
+             <h2>UserDashBoard</h2>
+
             <div style="border:1px solid #000000; box-shadow:#000000 1px 1px;">
                 <table class="table">
                     <tr>
@@ -65,7 +99,7 @@
                                     <input type="hidden" value="@Html.DisplayFor(modelItem => item.Product_Price)" name="price" id="price" />
                                     <input type="hidden" value="@Html.DisplayFor(modelItem => item.Product_category)" name="category" id="category" />
                                     <input type="text" required name="qty" placeholder="Quantity" /> <br />
-                                    <input type="submit" value="Add to cart">
+                                    <input type="submit" value="Add to cart" class="btn btn-dark">
                                 }
 
                             </td>
@@ -74,9 +108,9 @@
                 </table>
                 </div>
             </div>
-        <div class="col-sm-5">
-            <div >
-                <div class="form-group" style="border:1px solid #000000;box-shadow:#000000 1px 1px;">
+        <div class="col-sm-5" style="margin-top:65px;">
+            <div style="box-shadow:#000000 1px 1px; border: 1px dashed black">
+                <div class="form-group">
                     <h3>Your Cart</h3>
                     <table class="table">
                         <tr>
@@ -91,8 +125,7 @@
                             </th>
                             <th>
                                 Price
-                            </th>
-                            <th></th>
+
                         </tr>
 
                         @foreach (var item in Model.Cart)
@@ -125,8 +158,6 @@
 
                                 </td>
 
-
-
                             </tr>
                         }
                         <tr>
@@ -134,17 +165,56 @@
                             <td></td>
                             <td> Quantities:<span style="color:brown; font-size:12px;">@Session["qty"]</span></td>
                             <td colspan="2"> Price: <span style="color:brown; font-size:12px;">@Session["total"]</span></td>
-
+                            <td></td>
                         </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td colspan="2"><span style="color:brown; font-size:20px"> @Html.ActionLink("Buy Now", "Invoice", "Home")</span></td>
 
-                        </tr>
+                        @using (Html.BeginForm("ApplyCoupon", "Home", FormMethod.Post))
+                        {
+                            <tr>
+
+                                <td><input type="text" id="discount_coupon" placeholder="Coupon" style="width:60px" required /></td>
+
+                                <td><input type="button" id="submit" value="Check Coupon" onclick="GetCarById()" /></td>
+                            </tr>
+                            <tr>
+                                <td><input type="submit" id="validate" value="Validate Coupon" style="visibility:hidden;" /></td>
+
+                                <td><input type="submit" id="delete_button" value="Delete Coupon" onclick="delete_()" style="visibility:hidden;" /></td>
+                                <td colspan="2"><span style="color:brown; font-size:20px"> @Html.ActionLink("Buy Now", "Invoice", "Home")</span></td>
+
+                                <input type="hidden" id="discount_name" />
+                                <input type="hidden" id="discount_value" name="discount_value" />
+
+                            </tr>
+                        }
+                        <input type="hidden" value="@Session["coupon_Applied"]" id="coupon" />
+                        <span style="color:red" id="coupon_text">
+
+                        </span>
+                        <script>
+
+                            if (document.getElementById("coupon").value == "true") {
+                                alert("Coupon Applied!");
+
+
+                            }
+                            else if (document.getElementById("coupon").value == "false") {
+                                alert("Coupon not valid or already Applied!");
+
+
+
+                            }
+
+                        </script>
+
+                        @{
+                            
+                            Session["coupon_Applied"] = "";
+                        }
+
+
                     </table>
-
+                   
                 </div>
 
             </div>

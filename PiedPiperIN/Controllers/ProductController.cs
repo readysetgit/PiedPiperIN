@@ -98,10 +98,7 @@ namespace PiedPiperIN.Controllers
 
 
 
-
-                //var existingproduct = productdb.product.Find(newproduct.Product_ID);
-                // productdb.Entry(existingproduct).CurrentValues.SetValues(productmodel);
-
+                
 
             }
             ViewBag.Message = "File Uploaded Successfully!!";
@@ -136,65 +133,6 @@ namespace PiedPiperIN.Controllers
             dash.Cart = productdb.cart_view.ToList();
             return View("UploadProduct", dash);
         }
-        //[HttpPost]
-        //public ActionResult NewProduct(product newproduct)
-        //{
-        //    {
-        //        DashboardViewModel dash = new DashboardViewModel();
-        //        PiedPiperINEntities productdb = new PiedPiperINEntities();
-        //        product productmodel = new product();
-
-        //        var existingproduct = productdb.product.Find(newproduct.Product_ID);
-        //            productmodel.Product_Name = newproduct.Product_Name;
-        //            productmodel.Product_Price = newproduct.Product_Price;
-        //        if (existingproduct == null)
-        //        {
-        //            productdb.product.Add(productmodel);
-        //            productdb.SaveChanges();
-        //        }
-        //        else
-        //        {
-        //            productdb.Entry(existingproduct).CurrentValues.SetValues(productmodel);
-        //        }
-        //        ViewBag.Message = "File Uploaded Successfully!!";
-        //        dash.Product = productdb.product.ToList();
-        //        dash.Cart = productdb.cart_view.ToList();
-        //        return View("UploadProduct", dash);
-
-
-        //    }
-
-        //}
-
-        //[HttpGet]
-        //public ActionResult EditProduct()
-        //{
-        //    //prod
-        //    //var prod = productdb.product.Where(p => p.Product_ID == Convert.ToInt32(id));
-
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //public actionresult editproduct(string pid, string name, string price, string picpath)
-        //{
-        //    piedpiperinentities productdb = new piedpiperinentities();
-        //    product editedproduct = new product();
-        //    editedproduct =
-
-        //    product toeditproduct = new product();
-
-        //    if (pid != null)
-        //    {
-        //        toeditproduct = productdb.product.where(k => k.product_id == pid))
-        //        productdb.product.attach()
-        //        if (result != null)
-        //        {
-        //            pro.product_price = "some new value";
-        //            db.savechanges();
-        //        }
-        //    }
-        //    return view();
-        //}
+        
     }
 }

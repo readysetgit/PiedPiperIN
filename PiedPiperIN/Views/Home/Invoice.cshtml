@@ -1,22 +1,43 @@
 ﻿@model PiedPiperIN.Models.DashboardViewModel
 
 @{
-    ViewBag.Title = "UserDashBoard";
+    ViewBag.Title = "INVOICE";
 }
-<body style="background-color:#fbf9f9">
+
+
+<body style="background-color:#ff6a00">
     <div class="row">
-        <div style="border:1px solid #808080; margin-top:2px; box-shadow:#000000 1px 1px;">
+        <div style="border:1px solid #808080; margin-top:2px; box-shadow:#000000 1px 1px; background-color:aliceblue">
             <div class="col-sm-12">
-                <div >
+                <div>
                     <center>
-                        <h1>Your Order has been successfully Placed </h1>
-                        <h3>Order No:<span style="color:brown">@Session["order_no"]</span></h3>
+                        <h2 id="head"> </h2>
+                        <script>
+
+                            var myvar = setInterval(myTimer, 1000);
+                            var d = 5;
+                            function myTimer() {
+
+                                document.getElementById("head").innerHTML = "Your Order has been Placed. Wait for 5 seconds to process your order: " + d;
+                                --d;
+                                if (d == 0) {
+
+                                    document.getElementById("head").innerHTML = "Your order has been successfully placed";
+
+                                    document.getElementById("orderno").style.visibility = "visible";
+                                    clearTimeout(myvar);
+                                    alert("Go to DashBoard");
+                                }
+                            }
+
+                        </script>
+                        <h3 style="visibility:hidden;" id="orderno">Order No:<span style="color:brown">@Session["order_no"]</span></h3>
                     </center>
                 </div>
                 <table class="table">
                     <tr>
-                        <th>Name: <span style="color:brown"> @HttpContext.User.Identity.Name</span></th>
-                        <th>Address: <span style="color:brown">@Session["Address"]</span></th>
+                        <th>Name: <span style="color:brown"> @Session["name"]</span></th>
+                        <th>Address: <span style="color:brown">@Session["address"]</span></th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -78,9 +99,44 @@
                     </tr>
 
                 </table>
+
             </div>
+            @using (Html.BeginForm())
+            {
+                <div style="margin-left: 15%; margin-right: 15%; width: 100%">
+                    <table width="70%" style="color: lavender; text-align: center; border: solid;">
+                        <tr>
+                            <td>
+
+                                <input id="btngetbyid" type="button" onclick="GetCarById();" value="Get_BYID" />
+                                <input id="btnget" type="button" onclick="AllcarDetails();" value="Get_Data" />
+
+                            </td>
+
+                        </tr>
+                    </table>
+                    <table width="70%" style="color: black; border: solid; text-align:center; " id="Cartbl">
+
+                        <tr>
+                            <td><b>CarName</b></td>
+                            <td><b>CarModel</b></td>
+                            <td><b>CarPrice</b></td>
+                            <td><b>CarColor</b></td>
+
+
+                        </tr>
+
+                    </table>
+
+                </div>
+            }
+
+
+            <span>Go to Dashboard</span>
+
         </div>
 
 
     </div>
-    </body>
+    
+</body>

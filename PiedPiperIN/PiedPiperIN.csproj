@@ -121,6 +121,10 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\PiedPiperIN - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\PiedPiperIN20180702065922 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\PiedPiperTushar - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -131,6 +135,7 @@
     <Content Include="Views\Home\UserDashBoard.cshtml" />
     <Content Include="Views\Product\UploadProduct.cshtml" />
     <Content Include="Views\Home\Invoice.cshtml" />
+    <Content Include="Views\View.cshtml" />
     <None Include="Web.Debug.Config">
       <DependentUpon>Web.Config</DependentUpon>
     </None>

@@ -11,7 +11,7 @@ using PiedPiperIN.Models;
 namespace PiedPiperIN.Controllers
 {
     //
-  [Authorize]
+    [Authorize]
     public class HomeController : Controller
     {
         public object Email { get; private set; }
@@ -27,6 +27,7 @@ namespace PiedPiperIN.Controllers
         {
             return View();
         }
+        [AllowAnonymous]
         public ActionResult Create()
         {
             return View();
@@ -37,52 +38,74 @@ namespace PiedPiperIN.Controllers
         {
             PiedPiperINEntities db = new PiedPiperINEntities();
             DashboardViewModel dashboardView = new DashboardViewModel();
-            int uid = Convert.ToInt32(Session["id"]);
-            dashboardView.Cart = db.cart_view.Where(m => m.id == uid).ToList();
-            float total_taxable = 0;
-
-            order order = new order();
-            order.User_ID = uid;
-            float total_price = 0;
-            Random rnd = new Random();
-            int orderno = rnd.Next(1000, 100000);
-            foreach (var x in dashboardView.Cart.Where(m => m.id == uid))
-            {
-                x.taxable_price = (float)(x.price) * (100 + x.category) / 100;
-                total_taxable += (float)x.taxable_price;
-                order.Product_List += x.product_name + "(" + x.Quantity + "), ";
-                total_price += (float)x.price;
-            }
-            order.order_number = orderno;
-            order.taxableprice = total_taxable;
-            order.totalprice = total_price;
-            db.orders.Add(order);
-            db.SaveChanges();
-            string name;
-            string Address;
-            string email;
-            foreach (var x in db.user_profile.Where(m => m.ID == uid))
-            {
-                name = x.Name;
-                Address = x.Address;
-                Session["name"] = name;
-                Session["Address"] = Address;
-
-            }
-            foreach (var x in db.orders.Where(m => m.Order_ID == uid))
+            if (Session["state"].ToString() == "true")
             {
 
+                int uid = Convert.ToInt32(Session["id"]);
+
+                dashboardView.Cart = db.cart_view.Where(m => m.id == uid).ToList();
+                double total_taxable = 0;
+
+                order order = new order();
+                order.User_ID = uid;
+                double total_price = 0;
+                Random rnd = new Random();
+                int orderno = rnd.Next(1000, 100000);
+                foreach (var x in db.cart_view.Where(m => m.id == uid))
+                {
+                    x.taxable_price = Math.Round((float)(x.price),2) * (100 + x.category) / 100;
+                    total_taxable += Math.Round((float)x.taxable_price,2);
+                    order.Product_List += x.product_name + "(" + x.Quantity + "), ";
+                    total_price += Math.Round((float)x.price,2);
+                }
+                order.order_number = orderno;
+                order.taxableprice = total_taxable;
+                order.totalprice = total_price;
+                db.orders.Add(order);
+                db.SaveChanges();
+
+
+                string name;
+                string Address;
+           
+                foreach (var x in db.user_profile.Where(m => m.ID == uid))
+                {
+                    name = x.Name;
+                    Address = x.Address;
+                    Session["name"] = name;
+                    Session["Address"] = Address;
+
+                }
+                foreach (var x in db.orders.Where(m => m.Order_ID == uid))
+                {
+
+                }
+
+                Session["order_no"] = orderno;
+                Session["taxable"] = total_taxable;
+                Session["state"] = false;
+                foreach (var x in db.cart_view.Where(m => m.id == uid))
+                {
+                    db.cart_view.Remove(x);
+
+                }
+                db.SaveChanges();
+
+                return View(dashboardView);
+            }
+            else
+            {
+                int uid = Convert.ToInt32(Session["id"]);
+                dashboardView.Cart = db.cart_view.Where(m => m.id == uid).ToList();
+                return View(dashboardView);
             }
 
-            Session["order_no"] = orderno;
-            Session["taxable"] = total_taxable;
-            return View(dashboardView);
         }
         //Firstcommit
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
-        public ActionResult Login(user_profile objUser, string ReturnUrl = "")
+        public ActionResult Login(user_profile objUser)
         {
 
             using (PiedPiperINEntities db = new PiedPiperINEntities())
@@ -90,10 +113,12 @@ namespace PiedPiperIN.Controllers
                 var user = db.user_profile.Where(a => a.Email.Equals(objUser.Email) && a.Password.Equals(objUser.Password)).FirstOrDefault();
                 if (user != null)
                 {
+                    Session["name"] = user.Name;
+                    Session["address"] = user.Address;
                     FormsAuthentication.SetAuthCookie(user.Email, objUser.RememberMe);
-                    if (Url.IsLocalUrl(ReturnUrl))
-                    {
-                        return Redirect(ReturnUrl);
+                    if (user.Role=="admin")
+                        {
+                        return RedirectToAction("UploadProduct", "Product");
                     }
                     else
                     {
@@ -117,17 +142,18 @@ namespace PiedPiperIN.Controllers
         [Authorize]
         public ActionResult UserDashBoard()
         {
+            Session["state"] = "true";
             PiedPiperINEntities db = new PiedPiperINEntities();
 
             DashboardViewModel dashboardView = new DashboardViewModel();
             dashboardView.Product = db.products.ToList();
             int uid = Convert.ToInt32(Session["id"]);
             dashboardView.Cart = db.cart_view.Where(k => k.id == uid).ToList();
-            int total = 0;
+            double total = 0;
             int total_products = 0;
             foreach (var x in db.cart_view.Where(k => k.id == uid))
             {
-                total = total + (int)x.price;
+                total = total + Math.Round( (double)x.price,2);
                 total_products = total_products + (int)x.Quantity;
             }
             Session["total"] = total;
@@ -193,6 +219,7 @@ namespace PiedPiperIN.Controllers
                     foreach (var x in count)
                     {
                         qty_b = (int)x.Quantity;
+                        x.coupon_applied = 0;
 
                     }
 
@@ -211,11 +238,11 @@ namespace PiedPiperIN.Controllers
             int uid = Convert.ToInt32(Session["id"]);
             dashboardView.Cart = db1.cart_view.Where(k => k.id == uid).ToList();
             dashboardView.Product = db1.products.ToList();
-            int total = 0;
+            float total = 0;
             int total_products = 0;
             foreach (var x in db1.cart_view.Where(k => k.id == uid))
             {
-                total = total + (int)x.price;
+                total = total + (float)x.price;
                 total_products = total_products + (int)x.Quantity;
             }
             Session["total"] = total;
@@ -257,11 +284,12 @@ namespace PiedPiperIN.Controllers
             int uid = Convert.ToInt32(Session["id"]);
             dashboardView.Cart = db.cart_view.Where(k => k.id == uid).ToList();
             dashboardView.Product = db.products.ToList();
-            int total = 0;
-            int total_products = 0;
+            double total = 0;
+            double total_products = 0;
             foreach (var x in db.cart_view.Where(k => k.id == uid))
             {
-                total = total + (int)x.price;
+               total =  total +  Math.Round((double)x.price,2);
+             
                 total_products = total_products + (int)x.Quantity;
             }
             Session["total"] = total;
@@ -271,5 +299,54 @@ namespace PiedPiperIN.Controllers
             return View("UserDashBoard", dashboardView);
 
         }
-    }
-}
+
+        public ActionResult ApplyCoupon(string discount_value)
+        {
+            DashboardViewModel dashboardView = new DashboardViewModel();
+
+            PiedPiperINEntities db = new PiedPiperINEntities();
+
+            try
+            {
+                cart_view cart = new cart_view();
+                int usid = Convert.ToInt32(Session["id"]);
+
+                double dis = (100 - float.Parse(discount_value)) / 100;
+                float total = 0;
+                int flag = 0;
+                foreach (var x in db.cart_view.Where(a => a.id == usid).ToList())
+                {
+                    if (x.coupon_applied == 0)
+                    {
+                        x.price = Math.Round((double)x.price * dis, 2);
+                        x.coupon_applied = 1;
+                        Session["coupon_Applied"] = "true";
+                        ++flag;
+                        
+
+                    }
+                    
+
+                    total += (float)x.price;
+                }
+                db.SaveChanges();
+                Session["total"] = total;
+                if (flag == 0)
+                {
+                    Session["coupon_Applied"] = "false";
+                }
+                dashboardView.Cart = db.cart_view.Where(k => k.id == usid).ToList();
+                dashboardView.Product = db.products.ToList();
+               
+
+            }
+            catch
+            {
+                Session["coupon_Applied"] = "false";
+            }
+
+            return View("UserDashBoard",dashboardView);
+
+
+        }
+    } } 

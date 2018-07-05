@@ -2,48 +2,57 @@
 @{
     ViewBag.Title = "Create";
 }
+<center>
+    <h2>Sign Up to Pied Piper</h2>
 
-<h2>Sign Up to Pied Piper</h2>
-
-@using (Html.BeginForm("Create_user", "Home", FormMethod.Post))
-{
-<fieldset>
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
-
-    @if (@ViewBag.id != null)
+    @using (Html.BeginForm("Create_user", "Home", FormMethod.Post))
     {
-        <div style="border: 1px solid red">
-            @ViewBag.id
-        </div>
+        <center>
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            @if (@ViewBag.id != null)
+            {
+                <div style="border: 1px solid red">
+                    @ViewBag.id
+                </div>
+            }
+                <div class="form-group">
+                    @Html.TextBoxFor(a => a.Email, new { placeholder = Html.DisplayNameFor(a => a.Email), @class = "form-control" })
+
+                    @Html.ValidationMessageFor(a => a.Email)
+
+                </div>
+           
+                <div class="form-group">
+                    @Html.PasswordFor(a => a.Password, new { placeholder = Html.DisplayNameFor(a => a.Password), @class = "form-control" })
+
+                    @Html.ValidationMessageFor(a => a.Password)
+                </div>
+           
+                <div class="form-group">
+                    @Html.TextBoxFor(a => a.Name, new { placeholder = Html.DisplayNameFor(a => a.Name), @class = "form-control" })
+
+                    @Html.ValidationMessageFor(a => a.Name)
+                </div>
+           
+                <div class="form-group">
+                    @Html.TextBoxFor(a => a.Address, new { placeholder = Html.DisplayNameFor(a => a.Address), @class = "form-control" })
+
+                    @Html.ValidationMessageFor(a => a.Address)
+                </div>
+          
+                <div class="form-group">
+                    <input type="submit" id="submit" value="Sign up" class="btn btn-dark" />
+
+                     @Html.ActionLink("Login", "Login", "Home", new { @class = "btn btn-dark" })
+                </div>
+            
+            
+                
+            
+
+        </center>
     }
-
-    @Html.TextBoxFor(a => a.Email, new { placeholder = Html.DisplayNameFor(a => a.Email) })
-    <br />
-    @Html.ValidationMessageFor(a => a.Email)
-
-    <br />
-    @Html.PasswordFor(a => a.Password, new { placeholder = Html.DisplayNameFor(a => a.Password) })
-    <br />
-    @Html.ValidationMessageFor(a => a.Password)
-    <br />
-    @Html.TextBoxFor(a => a.Name, new { placeholder = Html.DisplayNameFor(a => a.Name) })
-    <br />
-    @Html.ValidationMessageFor(a => a.Name)
-    <br />
-    @Html.TextBoxFor(a => a.Address, new { placeholder = Html.DisplayNameFor(a => a.Address) })
-    <br />
-    @Html.ValidationMessageFor(a => a.Address)
-
-    <br />
-    <br />
-    <br />
-    <p>
-        <input type="submit" id="submit" value="Sign up" style="background-color: #4CAF50;  border: none;   color: white;   padding: 10px 15px;   text-align: center;    text-decoration: none;    display: inline-block;   font-size: 16px;" />
-       
-        &nbsp;&nbsp;&nbsp;&nbsp; @Html.ActionLink("Login", "index", "Home", new { @style = "background-color: #00CED1;  border: none;   color: white;   padding: 10px 15px;   text-align: center;    text-decoration: none;    display: inline-block;   font-size: 16px;" })
-    </p>
-
-</fieldset>
-}
+</center>
 

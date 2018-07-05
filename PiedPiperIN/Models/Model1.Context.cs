@@ -25,9 +25,9 @@ namespace PiedPiperIN.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<cart_view> cart_view { get; set; }
         public virtual DbSet<order> orders { get; set; }
         public virtual DbSet<product> products { get; set; }
         public virtual DbSet<user_profile> user_profile { get; set; }
+        public virtual DbSet<cart_view> cart_view { get; set; }
     }
 }
