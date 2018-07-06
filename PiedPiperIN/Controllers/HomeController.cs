@@ -49,21 +49,24 @@ namespace PiedPiperIN.Controllers
                 order order = new order();
                 order.User_ID = uid;
                 double total_price = 0;
+                double total_price_value = 0;
                 Random rnd = new Random();
                 int orderno = rnd.Next(1000, 100000);
                 foreach (var x in db.cart_view.Where(m => m.id == uid))
                 {
-                    x.taxable_price = Math.Round((float)(x.price),2) * (100 + x.category) / 100;
-                    total_taxable += Math.Round((float)x.taxable_price,2);
+                    x.taxable_price = Math.Round((float)((x.price) * ((100 + (float)x.category) / 100)),2);
+                    total_taxable += (float)x.taxable_price;
                     order.Product_List += x.product_name + "(" + x.Quantity + "), ";
-                    total_price += Math.Round((float)x.price,2);
+                    total_price += (float)x.discounted_price;
+                    total_price_value += (float)x.price;
                 }
+
                 order.order_number = orderno;
-                order.taxableprice = total_taxable;
-                order.totalprice = total_price;
+                order.taxableprice = Math.Round(total_taxable,4);
+                order.totalprice = Math.Round(total_price, 2);
                 db.orders.Add(order);
                 db.SaveChanges();
-
+                
 
                 string name;
                 string Address;
@@ -76,22 +79,27 @@ namespace PiedPiperIN.Controllers
                     Session["Address"] = Address;
 
                 }
-                foreach (var x in db.orders.Where(m => m.Order_ID == uid))
-                {
-
-                }
-
+                total_taxable = Math.Round(total_taxable, 2);
+                total_price = Math.Round(total_price,2);
+                total_price_value = Math.Round(total_price_value, 2);
+              
+                Session["total"] = total_price_value;
                 Session["order_no"] = orderno;
                 Session["taxable"] = total_taxable;
+                Session["total_price_value"] = total_price;
+
+                Session["total_payable"] = total_taxable - total_price_value + total_price;
+
                 Session["state"] = false;
+                dashboardView.Cart = db.cart_view.Where(m => m.id == uid).ToList();
                 foreach (var x in db.cart_view.Where(m => m.id == uid))
                 {
                     db.cart_view.Remove(x);
 
                 }
                 db.SaveChanges();
-
-                return View(dashboardView);
+               
+                return View("Invoice",dashboardView);
             }
             else
             {
@@ -133,11 +141,7 @@ namespace PiedPiperIN.Controllers
 
 
         }
-        /// <summary>
-        /// /
-        /// </summary>
-        /// <returns></returns>
-        ///
+      
         [HttpGet]
         [Authorize]
         public ActionResult UserDashBoard()
@@ -187,12 +191,11 @@ namespace PiedPiperIN.Controllers
             return RedirectToAction("Login");
 
         }
+
         [HttpPost]
         [Authorize]
         public ActionResult addtocart(string pid, string pname, string qty, string price, string category)
         {
-            // PiedPiperINEntities db = new PiedPiperINEntities();
-
             using (PiedPiperINEntities db = new PiedPiperINEntities())
             {
                 cart_view cart = new cart_view();
@@ -203,6 +206,7 @@ namespace PiedPiperIN.Controllers
                 cart.product_name = pname;
                 cart.Quantity = int.Parse(qty);
                 cart.price = int.Parse(price) * int.Parse(qty);
+                cart.discounted_price= int.Parse(price) * int.Parse(qty);
                 cart.category = Convert.ToInt32(category);
 
 
@@ -233,6 +237,7 @@ namespace PiedPiperIN.Controllers
 
 
             }
+
             PiedPiperINEntities db1 = new PiedPiperINEntities();
             DashboardViewModel dashboardView = new DashboardViewModel();
             int uid = Convert.ToInt32(Session["id"]);
@@ -252,24 +257,7 @@ namespace PiedPiperIN.Controllers
             return View("UserDashBoard", dashboardView);
 
         }
-        //[HttpGet]
-        //public ActionResult updateCart()
-        //{
-        //    PiedPiperINEntities db = new PiedPiperINEntities();
-        //    DashboardViewModel dashboardView = new DashboardViewModel();
-        //    int uid = Convert.ToInt32(Session["id"]);
-
-        //    dashboardView.Cart = db.cart_view.Where(k => k.id == uid).ToList();
-        //    dashboardView.Product = db.product.ToList();
-        //    int total = 0;
-        //    foreach (var x in db.cart_view.Where(k => k.id == uid))
-        //    {
-        //        total = total + (int)x.price;
-        //    }
-        //    Session["total"] = total;
-        //    total = 0;
-        //    return View("UserDashBoard", dashboardView);
-        //}
+       
 
         [HttpPost]
         [Authorize]
@@ -318,16 +306,14 @@ namespace PiedPiperIN.Controllers
                 {
                     if (x.coupon_applied == 0)
                     {
-                        x.price = Math.Round((double)x.price * dis, 2);
+                        x.discounted_price = Math.Round((double)x.price * dis, 2);
                         x.coupon_applied = 1;
                         Session["coupon_Applied"] = "true";
                         ++flag;
-                        
-
                     }
                     
 
-                    total += (float)x.price;
+                    total += (float)x.discounted_price;
                 }
                 db.SaveChanges();
                 Session["total"] = total;
@@ -354,4 +340,5 @@ namespace PiedPiperIN.Controllers
 
 
         }
-    } } 
+
+ } } 

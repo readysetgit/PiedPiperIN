@@ -18,6 +18,7 @@
           <Property Name="taxable_price" Type="float" />
           <Property Name="category" Type="int" />
           <Property Name="coupon_applied" Type="int" Nullable="false" />
+          <Property Name="discounted_price" Type="float" />
         </EntityType>
         <EntityType Name="orders">
           <Key>
@@ -118,6 +119,7 @@
           <Property Name="taxable_price" Type="Double" />
           <Property Name="category" Type="Int32" />
           <Property Name="coupon_applied" Type="Int32" Nullable="false" />
+          <Property Name="discounted_price" Type="Double" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -166,6 +168,7 @@
           <EntitySetMapping Name="cart_view">
             <EntityTypeMapping TypeName="PiedPiperINModel.cart_view">
               <MappingFragment StoreEntitySet="cart_view">
+                <ScalarProperty Name="discounted_price" ColumnName="discounted_price" />
                 <ScalarProperty Name="coupon_applied" ColumnName="coupon_applied" />
                 <ScalarProperty Name="category" ColumnName="category" />
                 <ScalarProperty Name="taxable_price" ColumnName="taxable_price" />

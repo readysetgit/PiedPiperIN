@@ -53,7 +53,10 @@
                             Quantity
                         </th>
                         <th>
-                            Price
+                            Original Price
+                        </th>
+                        <th>
+                            Price(Discounted if)
                         </th>
                         <th>
                             Taxable Price
@@ -64,51 +67,58 @@
                     @foreach (var item in Model.Cart)
                     {
 
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.prdouct_id)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.product_name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Quantity)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => (item.price))
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.prdouct_id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.product_name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Quantity)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => (item.discounted_price))
 
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => (item.taxable_price))
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => (item.taxable_price))
 
-                                (@Html.DisplayFor(modelItem => (item.category))%)
-
-
-                            </td>
+                            (@Html.DisplayFor(modelItem => (item.category))%)
 
 
-                        </tr>
+                        </td>
+
+
+                    </tr>
                     }
                     <tr>
                         <td></td>
                         <td></td>
                         <td><h5>Total Quantities:<span style="color:brown;">@Session["qty"]</span> </h5></td>
                         <td><h5>Total Price: <span style="color:brown;">@Session["total"]</span></h5></td>
+                        <td><h5>Total Price:(Discounted if) <span style="color:brown;">@Session["total_price_value"]</span></h5></td>
                         <td><h5>Total Taxable Price: <span style="color:brown;">@Session["taxable"]</span></h5></td>
 
                     </tr>
                     <tr>
-                        @if (Session["discount_value"] != "")
+                        
+                         </tr>
+                    <tr>
+                        @if (Session["discount_value"].ToString() != "")
                         {
-                            <span style="color:orangered; font-size:22px">@Session["discount_value"] % Discount Applied!</span>
+                            <h3 style="color:orangered;">@Session["discount_value"] % Discount Applied!</h3>
                         }
-                </tr>
+                   </tr>
                 </table>
 
             </div>
 
 
-            <span>Go to Dashboard</span>
+            <h3>  Total Payable Amount: @Session["total_payable"] </h3>
 
         </div>
 

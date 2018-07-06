@@ -21,6 +21,7 @@ namespace PiedPiperIN.Models
         public Nullable<int> Quantity { get; set; }
         public Nullable<double> price { get; set; }
         public Nullable<double> taxable_price { get; set; }
+        public Nullable<double> discounted_price { get; set; }
         public Nullable<int> category { get; set; }
         public int coupon_applied { get; set; }
     }

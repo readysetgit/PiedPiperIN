@@ -22,7 +22,6 @@ namespace PiedPiperIN.Models
         public string Role { get; set; }
         public string Address { get; set; }
         public byte[] timestamp { get; set; }
-
         public bool RememberMe { get; set; }
     }
 }

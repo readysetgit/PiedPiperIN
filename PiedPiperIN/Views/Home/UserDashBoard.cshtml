@@ -4,36 +4,46 @@
 <!DOCTYPE HTML>
 <html>
 
-<script lang="ja" type="text/javascript">
+<script type="text/javascript">
 
     function GetCarById()   //Mine 
     {
         if (document.getElementById("discount_coupon").value != "")
         {
             $.ajax({
-                url: 'http://localhost:32359/api/CarDetails/' + document.getElementById("discount_coupon").value,
+                url: 'http://localhost:32359/api/CarDetails/'+document.getElementById("discount_coupon").value,
                 type: 'GET',
                 dataType: "json",
-                success: function (data) {
+                success: function (data)
+                {
 
                     var datavalue = data;
                     var myJsonObject = datavalue;
 
                     var DiscountName = myJsonObject[0].DiscountName;
                     var DiscountValue = myJsonObject[0].DiscountValue;
+                    if (DiscountValue != "0") {
 
-                    document.getElementById("delete_button").style.visibility = "visible";
-                    document.getElementById("validate").style.visibility = "visible";
-                    document.getElementById("submit").text = "Validate Coupon";
-                    document.getElementById("discount_name").value = DiscountName;
-                    document.getElementById("discount_value").value = DiscountValue;
+                        document.getElementById("validate").style.visibility = "visible";
+
+                        document.getElementById("discount_name").value = DiscountName;
+                        document.getElementById("discount_value").value = DiscountValue;
+                    }
+                    else {
+                        alert("Coupon Not Valid!")
+                    }
+            
 
                 },
-                error: function (xhr) {
+
+
+                error: function (xhr)
+                {
                     alert("No coupon Applied!");
                 }
             });
         }
+        
     }
     function delete_()
     {
@@ -127,41 +137,44 @@
                                 Price
                                 </th>
                             <th>
-
+                                Payable Amount
                             </th>
                         </tr>
 
                         @foreach (var item in Model.Cart)
                         {
 
-                            <tr>
-                                <td style="width:50px;">
-                                    @Html.DisplayFor(modelItem => item.prdouct_id)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.product_name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Quantity)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => (item.price))
+                        <tr>
+                            <td style="width:50px;">
+                                @Html.DisplayFor(modelItem => item.prdouct_id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.product_name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Quantity)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => (item.price))
 
-                                </td>
-                                <td>
-                                    @using (Html.BeginForm("updateCart", "Home", FormMethod.Post))
-                                    {
-                                        <input type="hidden" value="@Html.DisplayFor(modelItem => item.prdouct_id)" name="pid" />
-                                        <input type="hidden" value="@Html.DisplayFor(modelItem => item.product_name)" name="pname" />
-                                        <input type="hidden" value="@Html.DisplayFor(modelItem => item.price)" name="price" />
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => (item.discounted_price))
 
-                                        <input type="submit" value="Delete" style="width:50px;">
+                            </td>
+                            <td>
+                                @using (Html.BeginForm("updateCart", "Home", FormMethod.Post))
+                                {
+                                    <input type="hidden" value="@Html.DisplayFor(modelItem => item.prdouct_id)" name="pid" />
+                                    <input type="hidden" value="@Html.DisplayFor(modelItem => item.product_name)" name="pname" />
+                                    <input type="hidden" value="@Html.DisplayFor(modelItem => item.price)" name="price" />
+                                    <input type="submit" value="Delete" style="width:50px;">
 
-                                    }
+                                }
 
-                                </td>
+                            </td>
 
-                            </tr>
+                        </tr>
                         }
                         <tr>
                             <td></td>
@@ -176,36 +189,32 @@
                             <tr>
 
                                 <td><input type="text" id="discount_coupon" placeholder="Coupon" style="width:60px" required /></td>
-
+                                 <input type="hidden" id="coupon" value="@Session["coupon_Applied"]" />
                                 <td><input type="button" id="submit" value="Check Coupon" onclick="GetCarById()" /></td>
+                                
                             </tr>
+
                             <tr>
-                                <td><input type="submit" id="validate" value="Validate Coupon" style="visibility:hidden;" /></td>
+                                <td><input type="submit" id="validate" value="Validate_Coupon" style="visibility:hidden;" /></td>
 
-                                <td><input type="submit" id="delete_button" value="Delete Coupon" onclick="delete_()" style="visibility:hidden;" /></td>
+                              
                                 <td colspan="2"><span style="color:brown; font-size:20px"> @Html.ActionLink("Buy Now", "Invoice", "Home")</span></td>
-
+                                
                                 <input type="hidden" id="discount_name" />
                                 <input type="hidden" id="discount_value" name="discount_value" />
 
                             </tr>
                         }
-                        <input type="hidden" value="@Session["coupon_Applied"]" id="coupon" />
-                        <span style="color:red" id="coupon_text">
-
-                        </span>
+                        
                         <script>
 
-                            if (document.getElementById("coupon").value == "true") {
+                            if (document.getElementById("coupon").value == "true")
+                            {
                                 alert("Coupon Applied!");
-
-
                             }
-                            else if (document.getElementById("coupon").value == "false") {
+                            else if (document.getElementById("coupon").value == "false")
+                            {
                                 alert("Coupon not valid or already Applied!");
-
-
-
                             }
 
                         </script>
