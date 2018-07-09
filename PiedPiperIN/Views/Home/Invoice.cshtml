@@ -108,7 +108,7 @@
                         
                          </tr>
                     <tr>
-                        @if (Session["discount_value"].ToString() != "")
+                        @if (Session["isCouponApplied"].ToString()=="true")
                         {
                             <h3 style="color:orangered;">@Session["discount_value"] % Discount Applied!</h3>
                         }

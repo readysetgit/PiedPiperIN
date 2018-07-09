@@ -50,6 +50,7 @@ namespace PiedPiperIN.Controllers
                 order.User_ID = uid;
                 double total_price = 0;
                 double total_price_value = 0;
+                int isCouponApplied = 0;
                 Random rnd = new Random();
                 int orderno = rnd.Next(1000, 100000);
                 foreach (var x in db.cart_view.Where(m => m.id == uid))
@@ -59,8 +60,16 @@ namespace PiedPiperIN.Controllers
                     order.Product_List += x.product_name + "(" + x.Quantity + "), ";
                     total_price += (float)x.discounted_price;
                     total_price_value += (float)x.price;
+                    if(x.coupon_applied==1)
+                    {
+                        Session["isCouponApplied"] = "true";
+                        ++isCouponApplied;
+                    }
                 }
-
+                if(isCouponApplied==0)
+                {
+                    Session["isCouponApplied"] = "false";
+                }
                 order.order_number = orderno;
                 order.taxableprice = Math.Round(total_taxable,4);
                 order.totalprice = Math.Round(total_price, 2);
@@ -224,6 +233,7 @@ namespace PiedPiperIN.Controllers
                     {
                         qty_b = (int)x.Quantity;
                         x.coupon_applied = 0;
+                       
 
                     }
 
@@ -231,6 +241,13 @@ namespace PiedPiperIN.Controllers
 
                     cart.Quantity = qty_b + int.Parse(qty);
                     cart.price = (qty_b + int.Parse(qty)) * int.Parse(price);
+                    foreach (var x in count)
+                    {
+
+                        x.discounted_price = x.price;
+
+
+                    }
                     db.SaveChanges();
 
                 }

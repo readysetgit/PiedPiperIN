@@ -61,7 +61,7 @@
             <div style="border:1px solid #000000; box-shadow:#000000 1px 1px;">
                 <table class="table">
                     <tr>
-                        <th>
+                        <th style="width:80px;">
                             Product ID
                         </th>
                         <th>
@@ -82,7 +82,7 @@
                     @foreach (var item in Model.Product)
                     {
                         <tr>
-                            <td>
+                            <td style="width:80px;">
                                 @Html.DisplayFor(modelItem => item.Product_ID)
                             </td>
                             <td>
@@ -124,7 +124,7 @@
                     <h3>Your Cart</h3>
                     <table class="table">
                         <tr>
-                            <th>
+                            <th style="width:80px;">
                                 Product ID
                             </th>
                             <th>
@@ -145,7 +145,7 @@
                         {
 
                         <tr>
-                            <td style="width:50px;">
+                            <td style="width:80px;">
                                 @Html.DisplayFor(modelItem => item.prdouct_id)
                             </td>
                             <td>
