@@ -97,8 +97,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\6000016950304.jpg" />
+    <Content Include="Content\asus.jfif" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Capture.PNG" />
+    <Content Include="Content\celery.jfif" />
+    <Content Include="Content\chai.jpg" />
+    <Content Include="Content\comb.jpg" />
+    <Content Include="Content\egg.jpg" />
+    <Content Include="Content\g7.jpeg" />
+    <Content Include="Content\orange.jpg" />
+    <Content Include="Content\salami.jpg" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -121,6 +131,8 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\demobcs - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\demobcs - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\PiedPiperIN - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PiedPiperIN20180702065922 - Web Deploy.pubxml" />

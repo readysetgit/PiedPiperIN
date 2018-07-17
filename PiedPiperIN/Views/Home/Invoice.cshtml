@@ -25,11 +25,13 @@
                                     document.getElementById("head").innerHTML = "Your order has been successfully placed";
 
                                     document.getElementById("orderno").style.visibility = "visible";
-                                    clearTimeout(myvar);
+                                  
                                     alert("Go to DashBoard");
+
+                                    clearTimeout(myvar);
                                 }
                             }
-
+                            
                         </script>
                         <h3 style="visibility:hidden;" id="orderno">Order No:<span style="color:brown">@Session["order_no"]</span></h3>
                     </center>

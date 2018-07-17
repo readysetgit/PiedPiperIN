@@ -11,7 +11,9 @@ using PiedPiperIN.Models;
 namespace PiedPiperIN.Controllers
 {
     //
-    [Authorize]
+   /// <summary>
+   /// //
+   /// </summary>
     public class HomeController : Controller
     {
         public object Email { get; private set; }
@@ -169,6 +171,16 @@ namespace PiedPiperIN.Controllers
                 total = total + Math.Round( (double)x.price,2);
                 total_products = total_products + (int)x.Quantity;
             }
+
+            if (total_products == 0)
+            {
+                Session["cart_quantity"] = "false";
+
+            }
+            else
+            {
+                Session["cart_quantity"] = "true";
+            }
             Session["total"] = total;
             Session["qty"] = total_products;
             total = 0;
@@ -188,16 +200,16 @@ namespace PiedPiperIN.Controllers
             {
                 db.user_profile.Add(user_profile);
                 db.SaveChanges();
-                Session["state"] = "true";
-                return RedirectToAction("Index");
+                Session["state1"] = "true";
+                return RedirectToAction("Login","Home");
             }
-
+            ////
             return View(user_profile);
         }
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
-            return RedirectToAction("Login");
+            return RedirectToAction("Login", "Home");
 
         }
 
@@ -240,15 +252,20 @@ namespace PiedPiperIN.Controllers
                     cart = db.cart_view.FirstOrDefault(m => m.prdouct_id == pro_id && m.id == usid);
 
                     cart.Quantity = qty_b + int.Parse(qty);
+
+                    int x1 = 0;
+                    
                     cart.price = (qty_b + int.Parse(qty)) * int.Parse(price);
                     foreach (var x in count)
                     {
 
                         x.discounted_price = x.price;
-
+                       
 
                     }
                     db.SaveChanges();
+
+                  
 
                 }
 
@@ -266,6 +283,15 @@ namespace PiedPiperIN.Controllers
             {
                 total = total + (float)x.price;
                 total_products = total_products + (int)x.Quantity;
+            }
+            if (total_products == 0)
+            {
+                Session["cart_quantity"] = "false";
+
+            }
+            else
+            {
+                Session["cart_quantity"] = "true";
             }
             Session["total"] = total;
             Session["qty"] = total_products;
@@ -297,6 +323,15 @@ namespace PiedPiperIN.Controllers
              
                 total_products = total_products + (int)x.Quantity;
             }
+            if (total_products == 0)
+            {
+                Session["cart_quantity"] = "false";
+
+            }
+            else
+            {
+                Session["cart_quantity"] = "true";
+            }
             Session["total"] = total;
             Session["qty"] = total_products;
             total = 0;
@@ -304,7 +339,8 @@ namespace PiedPiperIN.Controllers
             return View("UserDashBoard", dashboardView);
 
         }
-
+        [HttpPost]
+        [Authorize]
         public ActionResult ApplyCoupon(string discount_value)
         {
             DashboardViewModel dashboardView = new DashboardViewModel();
